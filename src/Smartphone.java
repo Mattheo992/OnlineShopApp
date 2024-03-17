@@ -1,32 +1,56 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Smartphone extends Product {
-    private Colours colour;
-    private int batteryCapacity;
-    private List<String> accessories;
-
-    public Smartphone(Long id, String productName, double price, int quantityAvailable) {
-        super(id, productName, price, quantityAvailable);
+    public enum Color {
+        BLACK,
+        WHITE,
+        GOLD,
+        SILVER,
+        BLUE,
+        RED
     }
 
-    public void setPhoneColour(Colours colour) {
-        this.colour = colour;
+    private Color color;
+    private int batteryCapacity; // Pojemność baterii w mAh
+    private List<String> accessories; // Lista dodatkowych akcesoriów
+
+    public Smartphone(long id, String name, double price, int quantityAvailable, Color color, int batteryCapacity) {
+        super(id, name, price, quantityAvailable);
+        this.color = color;
+        this.batteryCapacity = batteryCapacity;
+        this.accessories = new ArrayList<>();
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public int getBatteryCapacity() {
+        return batteryCapacity;
     }
 
     public void setBatteryCapacity(int batteryCapacity) {
         this.batteryCapacity = batteryCapacity;
     }
 
-    public void addAccessory(List<String> accessories) {
-        this.accessories = accessories;
+    public List<String> getAccessories() {
+        return accessories;
     }
 
-    @Override
-    public String toString() {
-        return "Smartphone{" +
-                "colour=" + colour +
-                ", batteryCapacity=" + batteryCapacity +
-                ", accessories=" + accessories +
-                '}';
+    public void addAccessory(String accessory) {
+        accessories.add(accessory);
+    }
+
+    // Przydatna metoda do wyświetlania dostępnych kolorów
+    public static void displayAvailableColors() {
+        System.out.println("Dostępne kolory:");
+        for (Color color : Color.values()) {
+            System.out.println(color);
+        }
     }
 }

@@ -1,52 +1,58 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ProductManager {
+
     private List<Product> products;
 
     public ProductManager() {
         this.products = new ArrayList<>();
     }
 
-    //Metoda do dodawania produktu
     public void addProduct(Product product) {
-        if (product instanceof Computer || product instanceof Smartphone || product instanceof Electronics) {
-            products.add(product);
-            System.out.println("Produkt dodany: " + product.getProductName());
-        } else {
-            System.out.println("Nieobsługiwany typ produktu.");
-        }
+        products.add(product);
+        System.out.println("Produkt został dodany.");
     }
 
-
-    //Metoda do usuwania produktu
     public void removeProduct(Product product) {
         if (products.contains(product)) {
             products.remove(product);
-            System.out.println("Usunięto " + product.getProductName());
+            System.out.println("Produkt został usunięty.");
         } else {
-            System.out.println("Taki produkt nie został dodany");
+            System.out.println("Produkt nie istnieje w bazie.");
         }
     }
 
-    //Metoda do aktualizacji koszyka
-    public void updateProduct(Product oldProduct, Product newProduct) {
-        int index = products.indexOf(oldProduct);
-        if (index != -1) {
-            products.set(index, newProduct);
-        } else {
-            System.out.println("Produkt nie został znaleziony.");
-        }
-    }
-
-    //Metoda do przeglądania wszystkich produktów
     public void displayProducts() {
         if (products.isEmpty()) {
-            System.out.println("Brak produktów do wyświetlenia.");
+            System.out.println("Brak produktów w magazynie.");
         } else {
+            System.out.println("Stan magazynowy:");
             for (Product product : products) {
-                System.out.println(product);
+                System.out.println(product.getProductName() + " - Dostępne sztuki: " + product.getQuantityAvailable());
             }
         }
+    }
+
+    public void updateProduct(int productId, Product updatedProduct) {
+        for (int i = 0; i < products.size(); i++) {
+            Product product = products.get(i);
+            if (product.getId() == productId) {
+                products.set(i, updatedProduct);
+                System.out.println("Produkt został zaktualizowany.");
+                return;
+            }
+        }
+        System.out.println("Produkt o podanym ID nie został znaleziony.");
+
+    }
+    public Optional<Product> findById(int productId) {
+        for (Product product : products) {
+            if (product.getId() == productId) {
+                return Optional.of(product);
+            }
+        }
+        return Optional.empty();
     }
 }

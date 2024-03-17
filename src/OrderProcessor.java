@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.util.Collections;
 
 public class OrderProcessor {
     public void processOrder(Order order) {
@@ -7,7 +8,26 @@ public class OrderProcessor {
                 + " " + order.getCustomer().getCustomerLastName());
         System.out.println("Kwota do zapłaty za zamówienie " + order.getOrderId() + " wynosi "
                 + order.getTotalAmount() + " zł.");
+        Customer customer = order.getCustomer();
+        double orderTotal = calculateOrderTotal(order);
+        int pointsEarned = calculateLoyaltyPoints((int) orderTotal);
+        customer.setLoyaltyPoints(customer.getLoyaltyPoints() + pointsEarned);
+
+        OrderSavedToTxt.saveOrdersToTxtFile(Collections.singletonList(order));
     }
+    private double calculateOrderTotal(Order order) {
+        double total = 0.0;
+        for (Product product : order.getProducts()) {
+            total += product.getPrice();
+        }
+        return total;
+    }
+
+    private int calculateLoyaltyPoints(int orderTotal) {
+        int points = (int) (orderTotal / 100);
+        return points;
+    }
+
 
     private void generateInvoice(Order order) {
         System.out.println("Generowanie faktury...");

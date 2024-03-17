@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Order {
@@ -5,12 +6,23 @@ public class Order {
     private Customer customer;
     private List<Product> products;
     private double totalAmount;
+    private LocalDateTime orderTime;
 
-    public Order(int orderId, Customer customer, List<Product> products, double totalAmount) {
+
+    public Order(int orderId, Customer customer, List<Product> products, double totalAmount, LocalDateTime orderTime) {
         this.orderId = orderId;
         this.customer = customer;
         this.products = products;
         this.totalAmount = totalAmount;
+        this.orderTime = orderTime;
+    }
+
+    public LocalDateTime getOrderTime() {
+        return orderTime;
+    }
+
+    public void setOrderTime(LocalDateTime orderTime) {
+        this.orderTime = orderTime;
     }
 
     public double getTotalAmount() {
@@ -53,5 +65,9 @@ public class Order {
                 ", produkty=" + products +
                 ", do zapłaty =" + totalAmount +
                 '}';
+    }
+    public void applyDiscount(double discount) {
+        totalAmount -= discount;
+        System.out.println("Zastosowano zniżkę w wysokości " + discount + " do zamówienia.");
     }
 }
