@@ -45,7 +45,6 @@ public class ProductManager {
             }
         }
         System.out.println("Produkt o podanym ID nie został znaleziony.");
-
     }
     public Optional<Product> findById(int productId) {
         for (Product product : products) {

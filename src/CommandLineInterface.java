@@ -11,9 +11,9 @@ public class CommandLineInterface {
     private Scanner scanner;
 
     public CommandLineInterface(ProductManager productManager, Cart cart, OrderProcessor orderProcessor, Scanner scanner) {
-        this.productManager = new ProductManager();
-        this.cart = new Cart();
-        this.orderProcessor = new OrderProcessor();
+        this.productManager = productManager;
+        this.cart = cart;
+        this.orderProcessor = orderProcessor;
         this.scanner = new Scanner(System.in);
     }
 
@@ -23,9 +23,10 @@ public class CommandLineInterface {
         System.out.println("1 - Przeglądaj dostępne produkty w sklepie.");
         System.out.println("2 - Dodaj produkt do koszyka");
         System.out.println("3 - Usuń produkt z koszyka");
-        System.out.println("4 - Wyświetl zawartość koszyka.");
-        System.out.println("5 - Złóż zamówienie.");
-        System.out.println("6 - Wyjście");
+        System.out.println("4 - Stwórz własny komputer i dodaj do koszyka.");
+        System.out.println("5 - Wyświetl zawartość koszyka.");
+        System.out.println("6 - Złóż zamówienie.");
+        System.out.println("7 - Wyjście");
 
         int command;
         do {
@@ -60,14 +61,16 @@ public class CommandLineInterface {
                         System.out.println("Nie można znaleźć produktu o podanym ID");
                     }
                     break;
-
                 case 4:
-                    cart.viewCart();
+                    setUpComputer();
                     break;
                 case 5:
-                    cart.placeOrder();
+                    cart.viewCart();
                     break;
                 case 6:
+                    cart.placeOrder();
+                    break;
+                case 7:
                     System.out.println("Dziękujemy za skorzystanie z naszego sklepu. Do zobaczenia" + "przy następnych zakupach");
                     break;
                 default:
@@ -132,6 +135,104 @@ public class CommandLineInterface {
 
     public void displayAvailableProducts() {
         productManager.displayProducts();
+    }
+
+    private void setUpComputer() throws ProductNotAvailableException {
+        System.out.println("Skonfiguruj swój komputer. Cena komputeraz to 1500 zł (podstawa) plus" +
+                "cena każdego z komponentów");
+        Computer computer = new Computer();
+        double totalCost = 0.00;
+        System.out.println("Wybierz procesor: ");
+        System.out.println("1 - Intel Core i5-13600KF - 1199.00 zł");
+        System.out.println("2 - Intel Core i7-14700KF - 1719.00 zł");
+        System.out.println("3 - Intel Core i9-14900K - 2699.00 zł");
+        int processorChoice = scanner.nextInt();
+        switch (processorChoice) {
+            case 1:
+                computer.setProcessor("Intel Core i5-13600KF");
+                totalCost += 1199.00;
+                break;
+            case 2:
+                computer.setProcessor("Inte Core i7-14700KF");
+                totalCost += 1719.00;
+                break;
+            case 3:
+                computer.setProcessor("Intel Core i9-14900K");
+                totalCost += 2699.00;
+                break;
+            default:
+                System.out.println("Niepoprawny wybór procesora");
+                return;
+        }
+        System.out.println("Wybierz ilość pamięci RAM: ");
+        System.out.println("1 - DDR5 Fury 16GB - 325.00 zł");
+        System.out.println("2 - DDR5 Lexar 32GB - 559,99 zł");
+        System.out.println("3 - DDR5 Fury 64GB - 919,00 zł");
+        int ramChoice = scanner.nextInt();
+        switch (ramChoice) {
+            case 1:
+                computer.setRam(16);
+                totalCost += 325.00;
+                break;
+            case 2:
+                computer.setRam(32);
+                totalCost += 559.99;
+                break;
+            case 3:
+                computer.setRam(64);
+                totalCost += 919.00;
+                break;
+            default:
+                System.out.println("Wybrano nieoprawną ilość RAM");
+                return;
+        }
+        System.out.println("Wybierz pojemność dysku SSD: ");
+        System.out.println("1 - SSD GOODRAM 512 GB - 144,00 zł");
+        System.out.println("2 - SSD Lexar 1 TB - 299,00 zł");
+        System.out.println("3 - SSD Lexar 2 TB - 599,00 zł");
+        int ssdChoice = scanner.nextInt();
+        switch (ssdChoice) {
+            case 1:
+                computer.setSsdDriveCapacity(512);
+                totalCost += 144.00;
+                break;
+            case 2:
+                computer.setSsdDriveCapacity(1000);
+                totalCost += 299.00;
+                break;
+            case 3:
+                computer.setSsdDriveCapacity(2000);
+                totalCost += 599.00;
+                break;
+            default:
+                System.out.println("Wybrano niepoprawną wielkość dysku SSD");
+                return;
+        }
+        System.out.println("Wybierz moc zasilacza: ");
+        System.out.println("1 - MSI MAG 650 W - 299.00 zł");
+        System.out.println("2 - Endorfy Vero 700 W - 319,00 zł");
+        System.out.println("3 - Corsair 750 W - 649,00 zł");
+        int chargerChoice = scanner.nextInt();
+        switch (chargerChoice) {
+            case 1:
+                computer.setCharger(650);
+                totalCost += 299.00;
+                break;
+            case 2:
+                computer.setCharger(700);
+                totalCost += 319.00;
+                break;
+            case 3:
+                computer.setCharger(750);
+                totalCost += 649.00;
+                break;
+            default:
+                System.out.println("Wybrano niepoprawną moc zasilacza");
+                return;
+        }
+        cart.addProduct(computer);
+        System.out.println("Komputer został dodany do koszuka. " +
+                "Całkowita kwota za komputer wynosi " + totalCost + " zł.");
     }
 
 }
