@@ -315,4 +315,4 @@ private void setUpSmartphone() throws ProductNotAvailableException {
     System.out.println("Produkt został dodany do koszyka");
 }
 }
-
+//dopisać czy dodać od koszyka
