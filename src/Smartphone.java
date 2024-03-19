@@ -22,6 +22,13 @@ public class Smartphone extends Product {
         this.accessories = new ArrayList<>();
     }
 
+    public Smartphone() {
+        super(888L, "Smartphone", 0.00, 1);
+        this.color = Color.BLACK;
+        this.batteryCapacity = 4000;
+        this.accessories = new ArrayList<>();
+    }
+
     public Color getColor() {
         return color;
     }
@@ -49,8 +56,9 @@ public class Smartphone extends Product {
     // Przydatna metoda do wyświetlania dostępnych kolorów
     public static void displayAvailableColors() {
         System.out.println("Dostępne kolory:");
-        for (Color color : Color.values()) {
-            System.out.println(color);
+        Color[] colors = Color.values();
+        for (int i = 0; i < colors.length; i++) {
+            System.out.println((i + 1) + ". " + colors[i]);
         }
     }
 }

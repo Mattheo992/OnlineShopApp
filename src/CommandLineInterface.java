@@ -1,8 +1,8 @@
+import java.awt.*;
 import java.time.LocalDateTime;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.Scanner;
+
 
 public class CommandLineInterface {
     private ProductManager productManager;
@@ -141,7 +141,7 @@ public class CommandLineInterface {
         System.out.println("Skonfiguruj swój komputer. Cena komputeraz to 1500 zł (podstawa) plus" +
                 "cena każdego z komponentów");
         Computer computer = new Computer();
-        double totalCost = 0.00;
+        double totalCost = 1500.00;
         System.out.println("Wybierz procesor: ");
         System.out.println("1 - Intel Core i5-13600KF - 1199.00 zł");
         System.out.println("2 - Intel Core i7-14700KF - 1719.00 zł");
@@ -231,8 +231,88 @@ public class CommandLineInterface {
                 return;
         }
         cart.addProduct(computer);
-        System.out.println("Komputer został dodany do koszuka. " +
-                "Całkowita kwota za komputer wynosi " + totalCost + " zł.");
+        System.out.println("Całkowita kwota za komputer wynosi " + totalCost + " zł.");
+    }
+private void setUpSmartphone() throws ProductNotAvailableException {
+        Smartphone smartphone = new Smartphone();
+        double totalCost = 500.0;
+    System.out.println("Skonfiguruj swój telefon. Podstawowa cena to 500 zł + koszt poszczególnych komponentów");
+    System.out.println("Wybierz kolor telefonu.");
+    System.out.println("Dostępne kolory: ");
+    Smartphone.displayAvailableColors();
+    int colorChoice = scanner.nextInt();
+    Smartphone.Color color = Smartphone.Color.values()[colorChoice - 1];
+    smartphone.setColor(color);
+    System.out.println("Wybierz pojemność baterii: ");
+    System.out.println("1 -3400 mAh - 39,90 zł.");
+    System.out.println("2 - 3000 mAh - 31,90 zł.");
+    System.out.println("3 - 2850 mAH - 28,99 zł.");
+    int batteryChoice = scanner.nextInt();
+    switch (batteryChoice){
+        case 1:
+            smartphone.setBatteryCapacity(3400);
+            totalCost += 39.90;
+            break;
+        case 2:
+            smartphone.setBatteryCapacity(3000);
+            totalCost += 31.90;
+            break;
+        case 3:
+            smartphone.setBatteryCapacity(2850);
+            totalCost += 28.99;
+            break;
+        default:
+            System.out.println("Wybrano błędną pojemność baterii");
+            return;
+    }
+    scanner.nextLine(); // Konsumuj znak nowej linii
+    System.out.println("Wybierz akcesoria do telefonu (wprowadź '0' aby zakończyć):");
+    while (true) {
+        System.out.println("1 - Słuchawki Bluetooth JBL - 199,90 zł.");
+        System.out.println("2 - Powerbank - 99,90 zł.");
+        System.out.println("3 - Folia ochronna - 69,90 zł.");
+        int accessoryChoice = scanner.nextInt();
+        scanner.nextLine();
+        if (accessoryChoice == 0) {
+            break;
+        }
+        switch (accessoryChoice) {
+            case 1:
+                smartphone.addAccessory("Słuchawki Bluetooth JBL");
+                totalCost += 199.90;
+                break;
+            case 2:
+                smartphone.addAccessory("Powerbank");
+                totalCost += 90.90;
+                break;
+            case 3:
+                smartphone.addAccessory("Folia ochronna");
+                totalCost += 69.90;
+                break;
+            default:
+                System.out.println("Wybrano błędne akcesorium.");
+        }
     }
 
+    System.out.println("Konfiguracja telefonu zakończona. Wybrano:");
+    System.out.println("Kolor: " + smartphone.getColor());
+    System.out.println("Pojemność baterii: " + smartphone.getBatteryCapacity() + " mAh");
+    System.out.println("Akcesoria:");
+    for (String accessory : smartphone.getAccessories()) {
+        System.out.println("- " + accessory);
+    }
+    System.out.println("Łączna cena: " + totalCost + " zł");
+
+    // Wyświetl informacje o wybranych opcjach
+    System.out.println("Wybrane opcje:");
+    System.out.println("Kolor: " + smartphone.getColor());
+    System.out.println("Pojemność baterii: " + smartphone.getBatteryCapacity() + " mAh");
+    if (!smartphone.getAccessories().isEmpty()) {
+        System.out.println("Akcesoria: " + smartphone.getAccessories());
+    }
+    System.out.println("Całkowity koszt: " + totalCost + " zł");
+    cart.addProduct(smartphone);
+    System.out.println("Produkt został dodany do koszyka");
 }
+}
+//dopisać czy dodać od koszyka
