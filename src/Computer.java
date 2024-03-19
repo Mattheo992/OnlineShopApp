@@ -4,7 +4,7 @@ public class Computer extends Product {
     private int ssdDriveCapacity;
     private int charger;
     public Computer() {
-        super(999L, "Komputer", 1500.0, 1);
+        super(999L, "Komputer", 0.0, 1);
         this.processor = "Standardowy procesor";
         this.ram = 8;
         this.ssdDriveCapacity = 256;
