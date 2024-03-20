@@ -12,8 +12,8 @@ public class Smartphone extends Product {
     }
 
     private Color color;
-    private int batteryCapacity; // Pojemność baterii w mAh
-    private List<String> accessories; // Lista dodatkowych akcesoriów
+    private int batteryCapacity;
+    private List<String> accessories;
 
     public Smartphone(long id, String name, double price, int quantityAvailable, Color color, int batteryCapacity) {
         super(id, name, price, quantityAvailable);
@@ -53,7 +53,7 @@ public class Smartphone extends Product {
         accessories.add(accessory);
     }
 
-    // Przydatna metoda do wyświetlania dostępnych kolorów
+
     public static void displayAvailableColors() {
         System.out.println("Dostępne kolory:");
         Color[] colors = Color.values();

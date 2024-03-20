@@ -14,7 +14,7 @@ public class CommandLineInterface {
         this.productManager = productManager;
         this.cart = cart;
         this.orderProcessor = orderProcessor;
-        this.scanner = new Scanner(System.in);
+        this.scanner = scanner;
     }
 
     public void start() throws ProductNotAvailableException, OrderProcessingException {
@@ -68,31 +68,33 @@ public class CommandLineInterface {
                 case 3:
                     System.out.println("Podaj ID produktu do usunięcia z koszyka:");
                     int productIdToRemove = scanner.nextInt();
+                    scanner.nextLine();
                     Optional<Product> optionalProductToRemove = productManager.findById(productIdToRemove);
                     if (optionalProductToRemove.isPresent()) {
                         Product productToRemove = optionalProductToRemove.get();
-                        cart.removeProduct(productToRemove);
+                        System.out.println("Podaj ilość sztuk do usunięcia:");
+                        int quantityToRemove = scanner.nextInt();
+                        cart.removeProduct(productToRemove, quantityToRemove);
                     } else {
                         System.out.println("Nie można znaleźć produktu o podanym ID");
                     }
-
                     break;
+
                 case 4:
                     setUpComputer();
-
                     break;
                 case 5:
                     setUpSmartphone();
 
                 case 6:
                     cart.viewCart();
-
                     break;
                 case 7:
                     placeOrder();
                     break;
                 case 8:
-                    System.out.println("Dziękujemy za skorzystanie z naszego sklepu. Do zobaczenia" + "przy następnych zakupach");
+                    System.out.println("Dziękujemy za skorzystanie z naszego sklepu. Do zobaczenia"
+                            + " przy następnych zakupach");
                     break;
                 default:
                     System.out.println("Nieznana komenda. Spróbuj ponownie");
@@ -104,7 +106,7 @@ public class CommandLineInterface {
         System.out.println("Podaj Id produktu, który chcesz dodać do koszyka: ");
         int productId = scanner.nextInt();
         scanner.nextLine();
-
+        scanner.nextLine();
         Optional<Product> optionalProduct = productManager.findById(productId);
         if (optionalProduct.isPresent()) {
             Product productToAdd = optionalProduct.get();

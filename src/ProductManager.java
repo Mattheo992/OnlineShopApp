@@ -30,7 +30,8 @@ public class ProductManager {
         } else {
             System.out.println("Stan magazynowy:");
             for (Product product : products) {
-                System.out.println(product.getProductName() + " - Dostępne sztuki: " + product.getQuantityAvailable());
+                System.out.println("ID: " + product.getId() + ", Nazwa: " + product.getProductName()
+                        + ", Cena: " + product.getPrice() + ", Dostępna ilość: " + product.getQuantityAvailable());
             }
         }
     }

@@ -15,28 +15,37 @@ public class Cart {
     }
 
     public void addProduct(Product product, int quantity) throws ProductNotAvailableException {
-        Optional<Product> optionalProduct = productManager.findById(product.getId());
-        if (optionalProduct.isPresent()) {
-            Product foundProduct = optionalProduct.get();
-            if (foundProduct.getQuantityAvailable() >= quantity) {
-                for (int i = 0; i < quantity; i++) {
-                    products.add(product);
+            Optional<Product> optionalProduct = productManager.findById(product.getId());
+            if (optionalProduct.isPresent()) {
+                Product foundProduct = optionalProduct.get();
+                if (foundProduct.getQuantityAvailable() >= quantity) {
+                    for (int i = 0; i < quantity; i++) {
+                        products.add(foundProduct);
+                    }
+                    productManager.decrementQuantity(foundProduct.getId(), quantity);
+                    System.out.println("Produkt został dodany do koszyka");
+                } else {
+                    System.out.println("Nie ma wystarczającej ilości produktów na magazynie");
                 }
-                productManager.decrementQuantity(product.getId(), quantity);
-                System.out.println("Produkt został dodany do koszyka");
             } else {
-                throw new ProductNotAvailableException("Nie ma wystarczającej ilości produktów na magazynie");
+                System.out.println("Produkt o podanym ID nie został znaleziony.");
             }
-        } else {
-            throw new ProductNotAvailableException("Produkt o podanym ID nie został znaleziony.");
         }
-    }
 
-    public void removeProduct(Product product) {
-        if (products.remove(product)) {
-            System.out.println("Produkt " + product.getProductName() + " został usunięty z koszyka");
+    public void removeProduct(Product product, int quantity) {
+        int removedCount = 0;
+        while (removedCount < quantity) {
+            if (products.remove(product)) {
+                removedCount++;
+            } else {
+                break;
+            }
+        }
+
+        if (removedCount > 0) {
+            System.out.println("Usunięto " + removedCount + " szt. produktu " + product.getProductName() + " z koszyka");
         } else {
-            System.out.println("Taki produkt nie znajduje się w koszyku.");
+            System.out.println("Nie ma wystarczającej ilości produktu " + product.getProductName() + " w koszyku.");
         }
     }
 
@@ -58,8 +67,18 @@ public class Cart {
     public double calculateTotalAmount() {
         double totalAmount = 0.0;
         for (Product product : products) {
-            totalAmount += product.getPrice();
+            totalAmount += product.getPrice() * getProductQuantityInCart(product);
         }
         return totalAmount;
+    }
+
+    private int getProductQuantityInCart(Product product) {
+        int quantityInCart = 0;
+        for (Product cartProduct : products) {
+            if (cartProduct.equals(product)) {
+                quantityInCart++;
+            }
+        }
+        return quantityInCart;
     }
 }
