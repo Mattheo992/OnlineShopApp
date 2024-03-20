@@ -1,0 +1,7 @@
+ID zamówienia: 117
+Zamówione produkty: [Computer{processor='Intel Core i5-13600KF', ram=16, ssdDriveCapacity=512 GB , charger=650 W }]
+Wartość zamówienia: 3467.0
+Klient: dhsdf
+Adres klienta: sdfh
+Zamówienie złożono: 2024-03-20T15:24:35.182060500
+

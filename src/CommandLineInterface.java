@@ -85,7 +85,7 @@ public class CommandLineInterface {
                     break;
                 case 5:
                     setUpSmartphone();
-
+                    break;
                 case 6:
                     cart.viewCart();
                     break;
@@ -155,7 +155,7 @@ public class CommandLineInterface {
         orderProcessor.processOrder(order);
 
         for (Product product : cartItems) {
-            productManager.decrementQuantity(product.getId(),1);
+            productManager.decrementQuantity(product.getId(), 1);
         }
         System.out.println("Zamówienie zostało złożone. Dziękujemy!");
     }
@@ -362,7 +362,7 @@ public class CommandLineInterface {
         if (addProductToCart.equalsIgnoreCase("T")) {
             smartphone.setPrice(totalCost);
             try {
-                cart.addProduct(smartphone, 1 ); // Poprawka na dodanie smartfona
+                cart.addProduct(smartphone, 1); // Poprawka na dodanie smartfona
                 System.out.println("Całkowita kwota za telefon i ewentualne akcesoria wynosi " + totalCost + " zł.");
             } catch (ProductNotAvailableException e) {
                 System.out.println("Nie można dodać telefonu do koszyka, jest niedostępny na magazynie");
