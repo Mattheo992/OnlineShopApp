@@ -46,12 +46,26 @@ public class ProductManager {
         }
         System.out.println("Produkt o podanym ID nie został znaleziony.");
     }
-    public Optional<Product> findById(int productId) {
+    public Optional<Product> findById(long productId) {
         for (Product product : products) {
             if (product.getId() == productId) {
                 return Optional.of(product);
             }
         }
         return Optional.empty();
+    }
+    public void decrementQuantity(long productId, int quantity) {
+        Optional<Product> optionalProduct = findById(productId);
+        if (optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+            int currentQuantity = product.getQuantityAvailable();
+            if (currentQuantity >= quantity) {
+                product.setQuantityAvailable(currentQuantity - quantity);
+            } else {
+                System.out.println("Nie ma wystarczającej ilości produktów w magazynie.");
+            }
+        } else {
+            System.out.println("Produkt o podanym ID nie został znaleziony.");
+        }
     }
 }

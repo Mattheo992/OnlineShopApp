@@ -1,35 +1,46 @@
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.List;
 
 public class OrderProcessor {
     public void processOrder(Order order) {
-        System.out.println("Twoje zamówienie jest przetwarzane...");
-        System.out.println("Pomyślnie przetworzono zamówienie dla " + order.getCustomer().getCustomerName()
-                + " " + order.getCustomer().getCustomerLastName());
-        System.out.println("Kwota do zapłaty za zamówienie " + order.getOrderId() + " wynosi "
-                + order.getTotalAmount() + " zł.");
+        List<Product> products = order.getProducts();
+        double total = calculateOrderTotal(products);
         Customer customer = order.getCustomer();
-        double orderTotal = calculateOrderTotal(order);
-        int pointsEarned = calculateLoyaltyPoints((int) orderTotal);
-        customer.setLoyaltyPoints(customer.getLoyaltyPoints() + pointsEarned);
+        System.out.println("Twoje zamówienie jest przetwarzane...");
+        System.out.println("Pomyślnie przetworzono zamówienie dla " + customer.getCustomerName()
+                + " " + customer.getCustomerLastName());
+        System.out.println("Adres dostawy: " + customer.getAddress());
+        System.out.println("Kwota do zapłaty za zamówienie " + order.getOrderId() + " wynosi "
+                + total + " zł.");
+        generateInvoice(order, total);
+        double discountAmount = calculateLoyaltyPoints(total, customer.getLoyaltyPoints());
+        total -= discountAmount;
+        System.out.println("Kwota po rabacie wynosi: " + total);
+
 
         OrderSavedToTxt.saveOrdersToTxtFile(Collections.singletonList(order));
     }
-    private double calculateOrderTotal(Order order) {
+    private double calculateOrderTotal(List<Product> products) {
         double total = 0.0;
-        for (Product product : order.getProducts()) {
-            total += product.getPrice();
+        for (Product product : products) {
+            total += product.getPrice() * product.getQuantityAvailable();
         }
         return total;
     }
 
-    private int calculateLoyaltyPoints(int orderTotal) {
-        int points = (int) (orderTotal / 100);
-        return points;
+    private double calculateLoyaltyPoints(double totalAmount, int loyaltyPoints) {
+        double discountRate = 0.1;
+        double discount = loyaltyPoints * discountRate;
+        if(discount> totalAmount){
+            discount = totalAmount;
+        }
+        return discount;
     }
 
 
-    private void generateInvoice(Order order) {
+
+    private void generateInvoice(Order order, double total) {
         System.out.println("Generowanie faktury...");
         System.out.println("Faktura dla zamówienia o numerze: " + order.getOrderId());
         System.out.println("Data zamówienia: " + LocalDateTime.now());
@@ -40,7 +51,7 @@ public class OrderProcessor {
         for (Product product : order.getProducts()) {
             System.out.println("- " + product.getProductName() + " Cena: " + product.getPrice() + " zł");
         }
-        System.out.println("Łączna suma zamówienia: " + order.getTotalAmount());
+        System.out.println("Łączna suma zamówienia: " + total);
         System.out.println("Pomyślnie wygenerowano fakturę");
     }
 }

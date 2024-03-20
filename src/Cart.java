@@ -5,27 +5,36 @@ import java.util.Optional;
 public class Cart {
     private List<Product> products;
     private ProductManager productManager;
-
     public Cart() {
         this.products = new ArrayList<>();
     }
-    public Optional<Product> findById(int productId) {
-        return productManager.findById(productId);
+
+    public Cart(ProductManager productManager) {
+        this.products = new ArrayList<>();
+        this.productManager = productManager;
     }
 
-    public void addProduct(Product product) throws ProductNotAvailableException {
-        if (product.getQuantityAvailable() > 0) {
-            products.add(product);
-            System.out.println("Produkt został dodany do koszyka");
+    public void addProduct(Product product, int quantity) throws ProductNotAvailableException {
+        Optional<Product> optionalProduct = productManager.findById(product.getId());
+        if (optionalProduct.isPresent()) {
+            Product foundProduct = optionalProduct.get();
+            if (foundProduct.getQuantityAvailable() >= quantity) {
+                for (int i = 0; i < quantity; i++) {
+                    products.add(product);
+                }
+                productManager.decrementQuantity(product.getId(), quantity);
+                System.out.println("Produkt został dodany do koszyka");
+            } else {
+                throw new ProductNotAvailableException("Nie ma wystarczającej ilości produktów na magazynie");
+            }
         } else {
-           throw new ProductNotAvailableException("Nie można dodać produktu do koszyka," +
-                   " jest niedostępny na magazynie") ;
+            throw new ProductNotAvailableException("Produkt o podanym ID nie został znaleziony.");
         }
     }
 
     public void removeProduct(Product product) {
         if (products.remove(product)) {
-            System.out.println("Produkt " + product.getProductName() + " został usnuęty z koszyka");
+            System.out.println("Produkt " + product.getProductName() + " został usunięty z koszyka");
         } else {
             System.out.println("Taki produkt nie znajduje się w koszyku.");
         }
@@ -42,19 +51,10 @@ public class Cart {
         }
     }
 
-    public void placeOrder() throws OrderProcessingException {
-        boolean allAvailable = products.stream().allMatch(product -> product.getQuantityAvailable() > 0);
-        if (allAvailable) {
-            System.out.println("Zamówienie zostało złożone.");
-            products.clear();
-        } else {
-          throw new OrderProcessingException("Zamówienie nie może zostać złożone. " +
-                  "Co najmniej jeden z produktów jest aktualnie niedostępy ");
-        }
-    }
     public List<Product> getCartItems() {
         return products;
     }
+
     public double calculateTotalAmount() {
         double totalAmount = 0.0;
         for (Product product : products) {
@@ -63,4 +63,3 @@ public class Cart {
         return totalAmount;
     }
 }
-
