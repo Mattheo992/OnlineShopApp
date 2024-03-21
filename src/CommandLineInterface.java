@@ -36,7 +36,6 @@ public class CommandLineInterface {
             switch (command) {
                 case 1:
                     displayAvailableProducts();
-
                     break;
                 case 2:
                     System.out.println("Podaj ID produktu, który chcesz dodać do koszyka:");
@@ -136,7 +135,7 @@ public class CommandLineInterface {
         String email = scanner.nextLine();
         System.out.println("Podaj numer telefonu :");
         String phoneNumber = scanner.nextLine();
-        System.out.println("Podaj adres dostawy zaczynając od kodu pocztowego, miejscowości" + " ulicy, numeru domu, numeru mieszkania (jeśli jest):");
+        System.out.println("Podaj adres dostawy zaczynając od kodu pocztowego, miejscowości, " + " ulicy, numeru domu, numeru mieszkania (jeśli jest):");
         String address = scanner.nextLine();
         int loyaltyPoints = 0;
 
