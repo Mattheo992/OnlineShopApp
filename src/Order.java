@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 public class Order {
@@ -6,10 +7,10 @@ public class Order {
     private Customer customer;
     private List<Product> products;
     private double totalAmount;
-    private LocalDateTime orderTime;
+    private ZonedDateTime orderTime;
 
 
-    public Order(int orderId, Customer customer, List<Product> products, double totalAmount, LocalDateTime orderTime) {
+    public Order(int orderId, Customer customer, List<Product> products, double totalAmount, ZonedDateTime orderTime) {
         this.orderId = orderId;
         this.customer = customer;
         this.products = products;
@@ -17,11 +18,11 @@ public class Order {
         this.orderTime = orderTime;
     }
 
-    public LocalDateTime getOrderTime() {
+    public ZonedDateTime getOrderTime() {
         return orderTime;
     }
 
-    public void setOrderTime(LocalDateTime orderTime) {
+    public void setOrderTime(ZonedDateTime orderTime) {
         this.orderTime = orderTime;
     }
 

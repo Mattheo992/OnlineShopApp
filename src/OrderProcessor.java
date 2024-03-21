@@ -1,4 +1,4 @@
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -62,7 +62,7 @@ public class OrderProcessor {
         private void generateInvoice(Order order, double total) {
             System.out.println("Generowanie faktury...");
             System.out.println("Faktura dla zamówienia o numerze: " + order.getOrderId());
-            System.out.println("Data zamówienia: " + LocalDateTime.now());
+            System.out.println("Data zamówienia: " + ZonedDateTime.now());
             System.out.println("Klient: " + order.getCustomer().getCustomerName() + " "
                     + order.getCustomer().getCustomerLastName());
             System.out.println("Adres dostawy: " + order.getCustomer().getAddress());
