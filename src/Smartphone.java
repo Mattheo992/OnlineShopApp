@@ -11,19 +11,29 @@ public class Smartphone extends Product {
         RED
     }
 
+    @Override
+    public String toString() {
+        return "Smartphone{" +
+                "kolor =" + color +
+                ", pojemność baterii =" + batteryCapacity +
+                ", akcesoria =" + accessories +
+                '}';
+    }
+
     private Color color;
     private int batteryCapacity;
     private List<String> accessories;
 
-    public Smartphone(long id, String name, double price, int quantityAvailable, Color color, int batteryCapacity) {
+    public Smartphone(int id, String name, double price, int quantityAvailable, Color color, int batteryCapacity) {
         super(id, name, price, quantityAvailable);
         this.color = color;
         this.batteryCapacity = batteryCapacity;
         this.accessories = new ArrayList<>();
     }
 
+
     public Smartphone() {
-        super(888L, "Smartphone", 0.00, 1);
+        super(888, "Smartphone", 0.00, 1);
         this.color = Color.BLACK;
         this.batteryCapacity = 4000;
         this.accessories = new ArrayList<>();

@@ -1,4 +1,4 @@
-import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -10,12 +10,12 @@ public class Order {
     private ZonedDateTime orderTime;
 
 
-    public Order(int orderId, Customer customer, List<Product> products, double totalAmount, ZonedDateTime orderTime) {
+    public Order(int orderId, Customer customer, List<Product> products, double totalAmount, ZoneId orderTime) {
         this.orderId = orderId;
         this.customer = customer;
         this.products = products;
         this.totalAmount = totalAmount;
-        this.orderTime = orderTime;
+        this.orderTime = ZonedDateTime.now(orderTime);
     }
 
     public ZonedDateTime getOrderTime() {

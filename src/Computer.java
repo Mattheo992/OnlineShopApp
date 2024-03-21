@@ -4,15 +4,23 @@ public class Computer extends Product {
     private int ssdDriveCapacity;
     private int charger;
     public Computer() {
-        super(999L, "Komputer", 0.0, 1);
+        super(999, "Komputer", 0.0, 1);
         this.processor = "Standardowy procesor";
         this.ram = 8;
         this.ssdDriveCapacity = 256;
         this.charger = 65;
     }
 
-    public Computer(Long id, String productName, double price, int quantityAvailable) {
+    public Computer(int id, String productName, double price, int quantityAvailable) {
         super(id, productName, price, quantityAvailable);
+    }
+
+    public Computer(int id, String productName, double price, int quantityAvailable, String processor, int ram, int ssdDriveCapacity, int charger) {
+        super(id, productName, price, quantityAvailable);
+        this.processor = processor;
+        this.ram = ram;
+        this.ssdDriveCapacity = ssdDriveCapacity;
+        this.charger = charger;
     }
 
     public void setProcessor(String processor) {
@@ -33,11 +41,11 @@ public class Computer extends Product {
 
     @Override
     public String toString() {
-        return "Computer{" +
-                "processor='" + processor + '\'' +
-                ", ram=" + ram +
-                ", ssdDriveCapacity=" + ssdDriveCapacity + " GB " +
-                ", charger=" + charger + " W " +
+        return "Komputer{" +
+                "procesor ='" + processor + '\'' +
+                ", pamięć ram =" + ram +
+                ", pojemność dysku SSD =" + ssdDriveCapacity + " GB " +
+                ", zasilacz =" + charger + " W " +
                 '}';
     }
 }

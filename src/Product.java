@@ -1,23 +1,23 @@
 import java.util.Objects;
 
 public class Product {
-    private Long id;
+    private int id;
     private String productName;
     private double price;
     private int quantityAvailable;
 
-    public Product(Long id, String productName, double price, int quantityAvailable) {
+    public Product(int id, String productName, double price, int quantityAvailable) {
         this.id = id;
         this.productName = productName;
         this.price = price;
         this.quantityAvailable = quantityAvailable;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -61,10 +61,10 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" +
-                "id=" + id +
-                ", productName='" + productName + '\'' +
-                ", price=" + price +
-                ", quantityAvailable=" + quantityAvailable +
+                "Id= " + id +
+                ", nazwa produktu ='" + productName + '\'' +
+                ", cena =" + price +
+                ", dostępna ilość =" + quantityAvailable +
                 '}';
     }
 }
