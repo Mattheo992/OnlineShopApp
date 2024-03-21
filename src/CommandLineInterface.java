@@ -1,5 +1,7 @@
 import java.awt.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.List;
 
@@ -147,7 +149,7 @@ public class CommandLineInterface {
 
         int orderId = generateOrderId();
 
-        LocalDateTime orderTime = LocalDateTime.now();
+        ZoneId orderTime = ZoneId.systemDefault();
 
         Order order = new Order(orderId, customer, cartItems, totalAmount, orderTime);
 
