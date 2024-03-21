@@ -13,8 +13,9 @@ public class Smartphone extends Product {
 
     @Override
     public String toString() {
-        return "Smartphone{" +
-                "kolor =" + color +
+        return "Smartphone{" + "id = " + getId() +
+                ", nazwa produktu = " + getProductName() +
+                ", kolor =" + color +
                 ", pojemność baterii =" + batteryCapacity +
                 ", akcesoria =" + accessories +
                 '}';

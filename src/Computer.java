@@ -41,8 +41,9 @@ public class Computer extends Product {
 
     @Override
     public String toString() {
-        return "Komputer{" +
-                "procesor ='" + processor + '\'' +
+        return "Komputer{" +"id = " + getId() +
+                ", nazwa produktu = " + getProductName() +
+                ", procesor ='" + processor + '\'' +
                 ", pamięć ram =" + ram +
                 ", pojemność dysku SSD =" + ssdDriveCapacity + " GB " +
                 ", zasilacz =" + charger + " W " +
