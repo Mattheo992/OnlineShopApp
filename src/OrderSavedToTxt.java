@@ -1,9 +1,17 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-
+/**
+ * Klasa służąca do zapisywania zamówień do pliku tekstowego.
+ */
 public class OrderSavedToTxt {
+    /** Ścieżka do pliku tekstowego, do którego zostaną zapisane zamówienia. */
     private static final String TXT_FILE_PATH = "src/orders.txt";
+    /**
+     * Metoda zapisująca zamówienia do pliku tekstowego.
+     *
+     * @param orders Lista zamówień do zapisania.
+     */
     public static void saveOrdersToTxtFile(List<Order> orders){
         try(FileWriter writer = new FileWriter(TXT_FILE_PATH)) {
             for(Order order : orders){
@@ -15,6 +23,12 @@ public class OrderSavedToTxt {
              System.err.println("Wystąpił błąd podczas zapisywania zamówień: " + e.getMessage());
         }
     }
+    /**
+     * Metoda formatująca pojedyncze zamówienie do postaci tekstowej.
+     *
+     * @param order Zamówienie do sformatowania.
+     * @return Sformatowane zamówienie jako tekst.
+     */
     private static String formatOrder(Order order){
         StringBuilder sb = new StringBuilder();
         sb.append("ID zamówienia: ").append(order.getOrderId()).append("\n");

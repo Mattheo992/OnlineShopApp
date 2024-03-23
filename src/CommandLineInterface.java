@@ -5,13 +5,22 @@ import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.List;
 
-
+/**
+ * Klasa reprezentująca interface wiersza poleceń do obsługi sklepu.
+ */
 public class CommandLineInterface {
-    private ProductManager productManager;
-    private Cart cart;
-    private OrderProcessor orderProcessor;
-    private Scanner scanner;
+    private ProductManager productManager; //Manager produktu
+    private Cart cart; //Koszyk
+    private OrderProcessor orderProcessor; // Przetwarzanie zamówień
+    private Scanner scanner; //Skaner do pobierania danych od użytkownika
 
+    /**
+     * Konstruktor dla klasy CommandLineInterface
+     * @param productManager Manager Produktu
+     * @param cart Koszyk
+     * @param orderProcessor Przetwarzanie zamówień
+     * @param scanner Skaner
+     */
     public CommandLineInterface(ProductManager productManager, Cart cart, OrderProcessor orderProcessor, Scanner scanner) {
         this.productManager = productManager;
         this.cart = cart;
@@ -19,6 +28,11 @@ public class CommandLineInterface {
         this.scanner = scanner;
     }
 
+    /**
+     * Metoda rozpoczynająca interakcję z interface wiersza poleceń.
+     * @throws ProductNotAvailableException Rzucany wyjątek, gdy produkt jest niedostępny
+     * @throws OrderProcessingException Rzucany wyjatek, gdy wystąpi problem podczas przetwarzania zamówienia
+     */
     public void start() throws ProductNotAvailableException, OrderProcessingException {
         System.out.println("Witaj w moim sklepie.");
         int command;
@@ -103,6 +117,10 @@ public class CommandLineInterface {
         } while (command != 8);
     }
 
+    /**
+     * Dodaje produkty do koszyka
+     * @throws ProductNotAvailableException rzucany wyjątek gdy produkt jest niedostępny
+     */
     private void addToCart() throws ProductNotAvailableException {
         System.out.println("Podaj Id produktu, który chcesz dodać do koszyka: ");
         int productId = scanner.nextInt();
@@ -122,11 +140,16 @@ public class CommandLineInterface {
         }
     }
 
-
+    /**
+     * Wyświetla zawartość koszyka
+     */
     private void viewCart() {
         cart.viewCart();
     }
 
+    /**
+     * Do składania zamówienia na produkty w koszyku
+     */
     private void placeOrder() {
         System.out.println("Podaj swoje dane użytkownika");
         System.out.println("Podaj imię:");
@@ -161,16 +184,26 @@ public class CommandLineInterface {
         System.out.println("Zamówienie zostało złożone. Dziękujemy!");
     }
 
-
+    /**
+     * Tworzy generowany losowo identyfikator Id
+     * @return generowany losowo identyfikator Id
+     */
     private int generateOrderId() {
         Random random = new Random();
         return random.nextInt(1000);
     }
 
+    /**
+     * Pokazuje wszystkie dostępne produkty
+     */
     public void displayAvailableProducts() {
         productManager.displayProducts();
     }
 
+    /**
+     * Tworzy komputer na podstawie komponentów wybranych przez użytkownika i dodaje do koszyka
+     * @throws ProductNotAvailableException wyjątek rzucany, gdy produkt jest niedostępny
+     */
     private void setUpComputer() throws ProductNotAvailableException {
         System.out.println("Skonfiguruj swój komputer. Cena komputeraz to 1500 zł (podstawa) plus" +
                 "cena każdego z komponentów");
@@ -280,6 +313,10 @@ public class CommandLineInterface {
         }
     }
 
+    /**
+     * Tworzy telefon na podstawie komponentów wybranych przez użytkownika i dodaje do koszyka
+     * @throws ProductNotAvailableException wyjątek rzucany, gdy produkt jest niedostępny
+     */
     private void setUpSmartphone() throws ProductNotAvailableException {
         Smartphone smartphone = new Smartphone();
         double totalCost = 500.0;

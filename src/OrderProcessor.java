@@ -4,25 +4,48 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Klasa odpowiedzialna za przetwarzanie zamówień.
+ */
 public class OrderProcessor {
+    /** ExecutorService do zarządzania wątkami przetwarzania zamówień. */
     private final ExecutorService EXECUTOR;
 
+    /**
+     * Konstruktor tworzący nowy obiekt OrderProcessor.
+     */
     public OrderProcessor() {
         this.EXECUTOR = Executors.newFixedThreadPool(5);
     }
 
+    /**
+     * Metoda przetwarzająca zamówienie.
+     *
+     * @param order Zamówienie do przetworzenia.
+     */
     public void processOrder(Order order) {
         EXECUTOR.submit(new OrderProcessingTask(order));
     }
 
-
+    /**
+     * Wewnętrzna klasa reprezentująca zadanie przetwarzania zamówienia.
+     */
     private static class OrderProcessingTask implements Runnable {
+        /** Zamówienie do przetworzenia. */
         private final Order order;
 
+        /**
+         * Konstruktor tworzący nowy obiekt OrderProcessingTask.
+         *
+         * @param order Zamówienie do przetworzenia.
+         */
         public OrderProcessingTask(Order order) {
             this.order = order;
         }
 
+        /**
+         * Metoda wykonująca zadanie przetwarzania zamówienia.
+         */
         @Override
         public void run() {
             List<Product> products = order.getProducts();
@@ -42,6 +65,12 @@ public class OrderProcessor {
             OrderSavedToTxt.saveOrdersToTxtFile(Collections.singletonList(order));
         }
 
+        /**
+         * Metoda obliczająca łączną wartość zamówienia.
+         *
+         * @param products Lista produktów w zamówieniu.
+         * @return Łączna wartość zamówienia.
+         */
         private double calculateOrderTotal(List<Product> products) {
             double total = 0.0;
             for (Product product : products) {
@@ -50,6 +79,13 @@ public class OrderProcessor {
             return total;
         }
 
+        /**
+         * Metoda obliczająca zniżkę na podstawie punktów lojalnościowych klienta.
+         *
+         * @param totalAmount    Łączna kwota zamówienia.
+         * @param loyaltyPoints  Punkty lojalnościowe klienta.
+         * @return Wartość zniżki.
+         */
         private double calculateLoyaltyPoints(double totalAmount, int loyaltyPoints) {
             double discountRate = 0.1;
             double discount = loyaltyPoints * discountRate;
@@ -59,6 +95,12 @@ public class OrderProcessor {
             return discount;
         }
 
+        /**
+         * Metoda generująca fakturę dla zamówienia.
+         *
+         * @param order Zamówienie.
+         * @param total Łączna kwota zamówienia.
+         */
         private void generateInvoice(Order order, double total) {
             System.out.println("Generowanie faktury...");
             System.out.println("Faktura dla zamówienia o numerze: " + order.getOrderId());
