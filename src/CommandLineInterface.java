@@ -355,6 +355,7 @@ public class CommandLineInterface {
             System.out.println("1 - Słuchawki Bluetooth JBL - 199,90 zł.");
             System.out.println("2 - Powerbank - 99,90 zł.");
             System.out.println("3 - Folia ochronna - 69,90 zł.");
+            System.out.println("0 - Zakończenie konfiguracji");
             int accessoryChoice = scanner.nextInt();
             scanner.nextLine();
             if (accessoryChoice == 0) {
