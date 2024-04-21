@@ -1,3 +1,4 @@
+import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -9,7 +10,7 @@ public class Order {
     private int orderId;
     private Customer customer;
     private List<Product> products;
-    private double totalAmount;
+    private BigDecimal totalAmount;
     private ZonedDateTime orderTime;
 
     /**
@@ -20,7 +21,7 @@ public class Order {
      * @param totalAmount całkowita kwota do zapłaty
      * @param orderTime czas złożenia zamówienia
      */
-    public Order(int orderId, Customer customer, List<Product> products, double totalAmount, ZoneId orderTime) {
+    public Order(int orderId, Customer customer, List<Product> products, BigDecimal totalAmount, ZoneId orderTime) {
         this.orderId = orderId;
         this.customer = customer;
         this.products = products;
@@ -46,14 +47,14 @@ public class Order {
      * Pobiera całkowitą wartość zamówienia zamówienia
      * @return całkowita wartość zamówienia zamówienia
      */
-    public double getTotalAmount() {
+    public BigDecimal getTotalAmount() {
         return totalAmount;
     }
     /**
      * Ustawia całkowitą wartość zamówienia zamówienia
      * @return całkowita wartość zamówienia zamówienia
      */
-    public void setTotalAmount(double totalAmount) {
+    public void setTotalAmount(BigDecimal totalAmount) {
         this.totalAmount = totalAmount;
     }
     /**
@@ -117,8 +118,8 @@ public class Order {
      * Zastosowuje zniżkę do całkowitej kwoty zamówienia.
      * @param discount wartość zniżki do zastosowania w zamówieniu
      */
-    public void applyDiscount(double discount) {
-        totalAmount -= discount;
+    public void applyDiscount(BigDecimal discount) {
+        totalAmount = totalAmount.subtract(discount);
         System.out.println("Zastosowano zniżkę w wysokości " + discount + " do zamówienia.");
     }
 }

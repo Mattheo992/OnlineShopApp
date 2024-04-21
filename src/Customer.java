@@ -1,3 +1,5 @@
+import java.math.BigDecimal;
+
 /**
  * Klasa repezentująca klienta
  */
@@ -158,7 +160,7 @@ public class Customer {
 
             // Dodajemy zniżkę do bieżącego zamówienia klienta
             if (currentOrder != null) {
-                currentOrder.applyDiscount(discount);
+                currentOrder.applyDiscount(BigDecimal.valueOf(discount));
                 System.out.println("Pomyślnie dodano zniżkę w wysokości " + discount + " do bieżącego zamówienia.");
             } else {
                 System.out.println("Nie można dodać zniżki, brak bieżącego zamówienia.");

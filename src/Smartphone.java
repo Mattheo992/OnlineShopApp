@@ -1,3 +1,4 @@
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class Smartphone extends Product {
      * @param color             Kolor telefonu.
      * @param batteryCapacity   Pojemność baterii telefonu.
      */
-    public Smartphone(int id, String name, double price, int quantityAvailable, Color color, int batteryCapacity) {
+    public Smartphone(int id, String name, BigDecimal price, int quantityAvailable, Color color, int batteryCapacity) {
         super(id, name, price, quantityAvailable);
         this.color = color;
         this.batteryCapacity = batteryCapacity;
@@ -43,9 +44,9 @@ public class Smartphone extends Product {
      * Konstruktor tworzący nowy obiekt Smartphone z domyślnymi parametrami.
      */
     public Smartphone() {
-        super(888, "Smartphone", 0.00, 1);
-        this.color = Color.BLACK;
-        this.batteryCapacity = 4000;
+        super(888, "Smartphone", BigDecimal.ZERO, 1);
+        this.color = null;
+        this.batteryCapacity = 0;
         this.accessories = new ArrayList<>();
     }
 

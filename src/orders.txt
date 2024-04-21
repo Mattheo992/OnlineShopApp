@@ -1,8 +1,8 @@
-ID zamówienia: 617
-Zamówione produkty: [Smartphone{id = 2nazwa produktu =telefon Apple Iphone 15 128GBkolor =SILVER, pojemność baterii =4000, akcesoria =[]}]
-Wartość zamówienia: 3699.99
-Imię klienta: Mateusz
-Nazwisko: Stępniak
-Adres klienta: 91-013 Łódź, ul. Czarnkowska 4/28
-Zamówienie złożono: 2024-03-21T19:37:21.853046+01:00[Europe/Warsaw]
+ID zamówienia: 652
+Zamówione produkty: [Komputer{id = 999, nazwa produktu = Spersonalizowany komputer, procesor ='Intel Core i5-13600KF', pamięć ram =16, pojemność dysku SSD =512 GB , zasilacz =650 W }]
+Wartość zamówienia: 3467.0
+Imię klienta: Matesad
+Nazwisko: asdasd
+Adres klienta: dfgsfd
+Zamówienie złożono: 2024-04-21T21:14:21.659521200+02:00[Europe/Warsaw]
 

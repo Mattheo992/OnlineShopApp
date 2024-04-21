@@ -1,3 +1,4 @@
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -98,10 +99,12 @@ public class Cart {
      * Oblicza całkowitą kwotę za produkty w koszyku
      * @return całkowita kwota za produkty w koszyku
      */
-    public double calculateTotalAmount() {
-        double totalAmount = 0.0;
+    public BigDecimal calculateTotalAmount() {
+        BigDecimal totalAmount = BigDecimal.ZERO;
         for (Product product : products) {
-            totalAmount += product.getPrice() * getProductQuantityInCart(product);
+            BigDecimal productPrice = product.getPrice();
+            BigDecimal quantity = BigDecimal.valueOf(getProductQuantityInCart(product));
+            totalAmount = totalAmount.add(productPrice.multiply(quantity));
         }
         return totalAmount;
     }

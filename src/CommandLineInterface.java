@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -168,7 +169,7 @@ public class CommandLineInterface {
 
         List<Product> cartItems = cart.getCartItems();
 
-        double totalAmount = cart.calculateTotalAmount();
+        BigDecimal totalAmount = cart.calculateTotalAmount();
 
         int orderId = generateOrderId();
 
@@ -207,8 +208,8 @@ public class CommandLineInterface {
     private void setUpComputer() throws ProductNotAvailableException {
         System.out.println("Skonfiguruj swój komputer. Cena komputeraz to 1500 zł (podstawa) plus" +
                 "cena każdego z komponentów");
-        Computer computer = new Computer();
-        double totalCost = 1500.00;
+        Computer computer = new Computer(999, "Spersonalizowany komputer", new BigDecimal("0.00"), 1);
+        BigDecimal totalCost = BigDecimal.valueOf(1500.00);
         System.out.println("Wybierz procesor: ");
         System.out.println("1 - Intel Core i5-13600KF - 1199.00 zł");
         System.out.println("2 - Intel Core i7-14700KF - 1719.00 zł");
@@ -217,15 +218,15 @@ public class CommandLineInterface {
         switch (processorChoice) {
             case 1:
                 computer.setProcessor("Intel Core i5-13600KF");
-                totalCost += 1199.00;
+                totalCost = totalCost.add(BigDecimal.valueOf(1199.00));
                 break;
             case 2:
                 computer.setProcessor("Inte Core i7-14700KF");
-                totalCost += 1719.00;
+                totalCost = totalCost.add(BigDecimal.valueOf(1719.00));
                 break;
             case 3:
                 computer.setProcessor("Intel Core i9-14900K");
-                totalCost += 2699.00;
+                totalCost = totalCost.add(BigDecimal.valueOf(2699.00));
                 break;
             default:
                 System.out.println("Niepoprawny wybór procesora");
@@ -239,15 +240,15 @@ public class CommandLineInterface {
         switch (ramChoice) {
             case 1:
                 computer.setRam(16);
-                totalCost += 325.00;
+                totalCost = totalCost.add(BigDecimal.valueOf(325.00));
                 break;
             case 2:
                 computer.setRam(32);
-                totalCost += 559.99;
+                totalCost = totalCost.add(BigDecimal.valueOf(559.99));
                 break;
             case 3:
                 computer.setRam(64);
-                totalCost += 919.00;
+                totalCost = totalCost.add(BigDecimal.valueOf(919.00)) ;
                 break;
             default:
                 System.out.println("Wybrano nieoprawną ilość RAM");
@@ -261,15 +262,15 @@ public class CommandLineInterface {
         switch (ssdChoice) {
             case 1:
                 computer.setSsdDriveCapacity(512);
-                totalCost += 144.00;
+                totalCost = totalCost.add(BigDecimal.valueOf(144.00));
                 break;
             case 2:
                 computer.setSsdDriveCapacity(1000);
-                totalCost += 299.00;
+                totalCost = totalCost.add(BigDecimal.valueOf(299.00));
                 break;
             case 3:
                 computer.setSsdDriveCapacity(2000);
-                totalCost += 599.00;
+                totalCost = totalCost.add(BigDecimal.valueOf(599.00));
                 break;
             default:
                 System.out.println("Wybrano niepoprawną wielkość dysku SSD");
@@ -283,20 +284,21 @@ public class CommandLineInterface {
         switch (chargerChoice) {
             case 1:
                 computer.setCharger(650);
-                totalCost += 299.00;
+                totalCost = totalCost.add(BigDecimal.valueOf(299.00));
                 break;
             case 2:
                 computer.setCharger(700);
-                totalCost += 319.00;
+                totalCost = totalCost.add(BigDecimal.valueOf(319.00));
                 break;
             case 3:
                 computer.setCharger(750);
-                totalCost += 649.00;
+                totalCost = totalCost.add(BigDecimal.valueOf(649.00));
                 break;
             default:
                 System.out.println("Wybrano niepoprawną moc zasilacza");
                 return;
         }
+        productManager.addProductWithoutComment(computer);
         scanner.nextLine();
         System.out.println("Czy chcesz dodać komputer do koszyka? (T/N)");
         String addComputerToCart = scanner.nextLine();
@@ -318,8 +320,8 @@ public class CommandLineInterface {
      * @throws ProductNotAvailableException wyjątek rzucany, gdy produkt jest niedostępny
      */
     private void setUpSmartphone() throws ProductNotAvailableException {
-        Smartphone smartphone = new Smartphone();
-        double totalCost = 500.0;
+        Smartphone smartphone = new Smartphone(888, "Spersonalizowany smartfon", new BigDecimal("0,00"), 1, null, 0);
+        BigDecimal totalCost = BigDecimal.valueOf(500.00);
         System.out.println("Skonfiguruj swój telefon. Podstawowa cena to 500 zł + koszt poszczególnych komponentów");
         System.out.println("Wybierz kolor telefonu.");
         System.out.println("Dostępne kolory: ");
@@ -335,21 +337,21 @@ public class CommandLineInterface {
         switch (batteryChoice) {
             case 1:
                 smartphone.setBatteryCapacity(3400);
-                totalCost += 39.90;
+                totalCost = totalCost.add(BigDecimal.valueOf(39.90));
                 break;
             case 2:
                 smartphone.setBatteryCapacity(3000);
-                totalCost += 31.90;
+                totalCost = totalCost.add(BigDecimal.valueOf(31.90));
                 break;
             case 3:
                 smartphone.setBatteryCapacity(2850);
-                totalCost += 28.99;
+                totalCost = totalCost.add(BigDecimal.valueOf(28.99));
                 break;
             default:
                 System.out.println("Wybrano błędną pojemność baterii");
                 return;
         }
-        scanner.nextLine(); // Konsumuj znak nowej linii
+        scanner.nextLine();
         System.out.println("Wybierz akcesoria do telefonu (wprowadź '0' aby zakończyć):");
         while (true) {
             System.out.println("1 - Słuchawki Bluetooth JBL - 199,90 zł.");
@@ -364,19 +366,20 @@ public class CommandLineInterface {
             switch (accessoryChoice) {
                 case 1:
                     smartphone.addAccessory("Słuchawki Bluetooth JBL");
-                    totalCost += 199.90;
+                    totalCost = totalCost.add(BigDecimal.valueOf(199.90));
                     break;
                 case 2:
                     smartphone.addAccessory("Powerbank");
-                    totalCost += 90.90;
+                    totalCost = totalCost.add(BigDecimal.valueOf(90.90));
                     break;
                 case 3:
                     smartphone.addAccessory("Folia ochronna");
-                    totalCost += 69.90;
+                    totalCost = totalCost.add(BigDecimal.valueOf(69.90));
                     break;
                 default:
                     System.out.println("Wybrano błędne akcesorium.");
             }
+            productManager.addProductWithoutComment(smartphone);
         }
 
         System.out.println("Konfiguracja telefonu zakończona. Wybrano:");

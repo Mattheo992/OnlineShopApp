@@ -1,3 +1,5 @@
+import java.math.BigDecimal;
+
 /**
  * Klasa reprezentująca komputer
  */
@@ -6,12 +8,13 @@ public class Computer extends Product {
     private int ram; //Pamięć ram
     private int ssdDriveCapacity; //Wielkosć dysku SSD
     private int charger; //Zasilacz
+    private double totalCost;
 
     /**
      * Konstruktor domyślny dla klasy Computer, ustawiajacy domyślne wartości dla komputera
      */
     public Computer() {
-        super(999, "Komputer", 0.0, 1);
+        super(999, "Komputer", BigDecimal.ZERO, 1);
         this.processor = "Standardowy procesor";
         this.ram = 8;
         this.ssdDriveCapacity = 256;
@@ -25,7 +28,7 @@ public class Computer extends Product {
      * @param price Cena produktu
      * @param quantityAvailable Dostępność na magazynie
      */
-    public Computer(int id, String productName, double price, int quantityAvailable) {
+    public Computer(int id, String productName, BigDecimal price, int quantityAvailable) {
         super(id, productName, price, quantityAvailable);
     }
     /**
@@ -40,7 +43,7 @@ public class Computer extends Product {
      * @param ssdDriveCapacity  Pojemność dysku SSD (w GB)
      * @param charger           Moc zasilacza (w Watach)
      */
-    public Computer(int id, String productName, double price, int quantityAvailable, String processor, int ram, int ssdDriveCapacity, int charger) {
+    public Computer(int id, String productName, BigDecimal price, int quantityAvailable, String processor, int ram, int ssdDriveCapacity, int charger) {
         super(id, productName, price, quantityAvailable);
         this.processor = processor;
         this.ram = ram;

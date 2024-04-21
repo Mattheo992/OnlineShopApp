@@ -1,3 +1,4 @@
+import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -49,7 +50,7 @@ public class OrderProcessor {
         @Override
         public void run() {
             List<Product> products = order.getProducts();
-            double total = calculateOrderTotal(products);
+            BigDecimal total = calculateOrderTotal(products);
             Customer customer = order.getCustomer();
             System.out.println("Twoje zamówienie jest przetwarzane...");
             System.out.println("Pomyślnie przetworzono zamówienie dla " + customer.getCustomerName()
@@ -57,9 +58,12 @@ public class OrderProcessor {
             System.out.println("Adres dostawy: " + customer.getAddress());
             System.out.println("Kwota do zapłaty za zamówienie " + order.getOrderId() + " wynosi "
                     + total + " zł.");
-            generateInvoice(order, total);
-            double discountAmount = calculateLoyaltyPoints(total, customer.getLoyaltyPoints());
-            total -= discountAmount;
+            generateInvoice(order, total.doubleValue());
+
+            BigDecimal discountAmount = BigDecimal.valueOf(calculateLoyaltyPoints(total.doubleValue(), customer.getLoyaltyPoints()));
+
+            total = total.subtract(discountAmount);
+
             System.out.println("Kwota po rabacie wynosi: " + total);
 
             OrderSavedToTxt.saveOrdersToTxtFile(Collections.singletonList(order));
@@ -71,10 +75,10 @@ public class OrderProcessor {
          * @param products Lista produktów w zamówieniu.
          * @return Łączna wartość zamówienia.
          */
-        private double calculateOrderTotal(List<Product> products) {
-            double total = 0.0;
+        private BigDecimal calculateOrderTotal(List<Product> products) {
+            BigDecimal total = BigDecimal.ZERO;
             for (Product product : products) {
-                total += product.getPrice();
+                total = total.add(product.getPrice());
             }
             return total;
         }

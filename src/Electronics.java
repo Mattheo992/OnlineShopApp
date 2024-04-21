@@ -1,3 +1,5 @@
+import java.math.BigDecimal;
+
 /**
  * Klasa reprezentująca elektronikę.
  * Klasa dziedzicząca po klasie Product
@@ -10,7 +12,7 @@ public class Electronics extends Product{
      * @param price cena produktu
      * @param quantityAvailable dostępna ilość produktu na magazynie
      */
-    public Electronics(int id, String productName, double price, int quantityAvailable) {
+    public Electronics(int id, String productName, BigDecimal price, int quantityAvailable) {
         super(id, productName, price, quantityAvailable);
     }
 

@@ -1,3 +1,4 @@
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -9,7 +10,7 @@ public class Product {
     /** Nazwa produktu. */
     private String productName;
     /** Cena produktu. */
-    private double price;
+    private BigDecimal price;
     /** Dostępna ilość produktu. */
     private int quantityAvailable;
 
@@ -21,7 +22,7 @@ public class Product {
      * @param price             Cena produktu.
      * @param quantityAvailable Dostępna ilość produktu.
      */
-    public Product(int id, String productName, double price, int quantityAvailable) {
+    public Product(int id, String productName, BigDecimal price, int quantityAvailable) {
         this.id = id;
         this.productName = productName;
         this.price = price;
@@ -49,12 +50,12 @@ public class Product {
     }
 
     /** Metoda zwracająca cenę produktu. */
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
     /** Metoda ustawiająca cenę produktu. */
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -79,10 +80,7 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Double.compare(product.price, price) == 0 &&
-                quantityAvailable == product.quantityAvailable &&
-                id == product.id &&
-                Objects.equals(productName, product.productName);
+        return id == product.id && quantityAvailable == product.quantityAvailable && Objects.equals(productName, product.productName) && Objects.equals(price, product.price);
     }
 
     /**
