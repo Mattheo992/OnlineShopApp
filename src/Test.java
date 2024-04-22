@@ -1,13 +1,17 @@
 import java.math.BigDecimal;
 import java.util.Scanner;
 
-public class Testowa {
+public class Test {
     public static void main(String[] args) throws OrderProcessingException, ProductNotAvailableException {
         ProductManager productManager = new ProductManager();
         Cart cart = new Cart(productManager);
         OrderProcessor orderProcessor = new OrderProcessor();
         Scanner scanner = new Scanner(System.in);
-        CommandLineInterface cli = new CommandLineInterface(productManager, cart, orderProcessor, scanner);
+        PcComponents pcComponents = new PcComponents();
+
+
+
+        CommandLineInterface cli = new CommandLineInterface(productManager, cart, orderProcessor, scanner, pcComponents);
         Smartphone smartphone1 = new Smartphone(1, "telefon Samsung Galaxy S22 8/128", new BigDecimal("2399.99"), 7, Smartphone.Color.BLACK, 3700);
         Smartphone smartphone2 = new Smartphone(2, "telefon Apple Iphone 15 128GB",new BigDecimal("3699.99"), 3, Smartphone.Color.SILVER, 4000);
         Smartphone smartphone3 = new Smartphone(3, "telefon Xiaomi Redmi Note 11S 6/128GB", new BigDecimal("99.16"), 16, Smartphone.Color.WHITE, 3500);

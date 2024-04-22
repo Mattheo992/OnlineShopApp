@@ -1,17 +1,18 @@
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Scanner;
 
 /**
- * Klasa reprezentująca komputer
+ * Klasa reprezentująca komputer.
  */
 public class Computer extends Product {
-    private String processor; //Procesor
-    private int ram; //Pamięć ram
-    private int ssdDriveCapacity; //Wielkosć dysku SSD
-    private int charger; //Zasilacz
-    private double totalCost;
+    private String processor; // Procesor
+    private int ram; // Pamięć RAM
+    private int ssdDriveCapacity; // Wielkość dysku SSD
+    private int charger; // Zasilacz
 
     /**
-     * Konstruktor domyślny dla klasy Computer, ustawiajacy domyślne wartości dla komputera
+     * Konstruktor domyślny dla klasy Computer, ustawiający domyślne wartości dla komputera.
      */
     public Computer() {
         super(999, "Komputer", BigDecimal.ZERO, 1);
@@ -22,15 +23,17 @@ public class Computer extends Product {
     }
 
     /**
-     * Konstruktor klasy Computer z podanymi parametrami
-     * @param id Indentyfikator Id
-     * @param productName Nazwa produktu
-     * @param price Cena produktu
-     * @param quantityAvailable Dostępność na magazynie
+     * Konstruktor klasy Computer z podanymi parametrami.
+     *
+     * @param id                Identyfikator komputera
+     * @param productName       Nazwa produktu
+     * @param price             Cena produktu
+     * @param quantityAvailable Dostępna ilość produktu
      */
     public Computer(int id, String productName, BigDecimal price, int quantityAvailable) {
         super(id, productName, price, quantityAvailable);
     }
+
     /**
      * Konstruktor klasy Computer z podanymi parametrami.
      *
@@ -53,6 +56,7 @@ public class Computer extends Product {
 
     /**
      * Ustawia procesor komputera.
+     *
      * @param processor procesor komputera
      */
     public void setProcessor(String processor) {
@@ -60,8 +64,9 @@ public class Computer extends Product {
     }
 
     /**
-     * Ustawia pamieć RAM komputera.
-     * @param ram pamięć RAM komputera.
+     * Ustawia pamięć RAM komputera.
+     *
+     * @param ram pamięć RAM komputera
      */
     public void setRam(int ram) {
         this.ram = ram;
@@ -69,6 +74,7 @@ public class Computer extends Product {
 
     /**
      * Ustawia wielkość dysku SSD komputera.
+     *
      * @param ssdDriveCapacity wielkość dysku SSD komputera
      */
     public void setSsdDriveCapacity(int ssdDriveCapacity) {
@@ -77,6 +83,7 @@ public class Computer extends Product {
 
     /**
      * Ustawia moc zasilacza.
+     *
      * @param charger moc zasilacza
      */
     public void setCharger(int charger) {
@@ -85,16 +92,28 @@ public class Computer extends Product {
 
     /**
      * Zwraca tekstową reprezentację obiektu klasy Computer.
+     *
      * @return tekstowa reprezentacja obiektu klasy Computer
      */
     @Override
     public String toString() {
-        return "Komputer{" +"id = " + getId() +
-                ", nazwa produktu = " + getProductName() +
-                ", procesor ='" + processor + '\'' +
-                ", pamięć ram =" + ram +
-                ", pojemność dysku SSD =" + ssdDriveCapacity + " GB " +
-                ", zasilacz =" + charger + " W " +
+        return "Komputer{" +
+                "id=" + getId() +
+                ", nazwa produktu='" + getProductName() + '\'' +
+                ", procesor='" + processor + '\'' +
+                ", pamięć ram=" + ram + " GB" +
+                ", pojemność dysku SSD=" + ssdDriveCapacity + " GB" +
+                ", zasilacz=" + charger + " W" +
                 '}';
     }
-}
+
+    /**
+     * Metoda ustawiająca komputer na podstawie wyboru użytkownika.
+     *
+     * @param pcComponents   Lista dostępnych komponentów
+     * @param scanner        Obiekt Scanner do pobierania danych od użytkownika
+     * @param productManager Manager produktów do dodania komputera do koszyka
+     * @throws ProductNotAvailableException Wyjątek rzucany, gdy komponent nie jest dostępny
+     */
+
+    }

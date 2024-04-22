@@ -39,7 +39,6 @@ public class Smartphone extends Product {
         this.batteryCapacity = batteryCapacity;
         this.accessories = new ArrayList<>();
     }
-
     /**
      * Konstruktor tworzący nowy obiekt Smartphone z domyślnymi parametrami.
      */

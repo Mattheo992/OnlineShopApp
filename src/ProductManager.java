@@ -20,7 +20,10 @@ public class ProductManager {
      *
      * @param product Produkt do dodania.
      */
-    public void addProduct(Product product) {
+    public void addProduct(Product product) throws ProductNotAvailableException {
+        if (product.getQuantityAvailable() <= 0) {
+            throw new ProductNotAvailableException("Produkt jest niedostępny w magazynie.");
+        }
         products.add(product);
         System.out.println("Produkt został dodany.");
     }
@@ -29,7 +32,10 @@ public class ProductManager {
      *
      * @param product Produkt do dodania.
      */
-    public void addProductWithoutComment (Product product){
+    public void addProductWithoutComment (Product product) throws ProductNotAvailableException {
+        if (product.getQuantityAvailable() <= 0) {
+            throw new ProductNotAvailableException("Produkt jest niedostępny w magazynie.");
+        }
         products.add(product);
     }
 

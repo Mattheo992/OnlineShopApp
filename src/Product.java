@@ -39,7 +39,9 @@ public class Product {
         this.id = id;
     }
 
-    /** Metoda zwracająca nazwę produktu. */
+    /**
+     * Metoda zwracająca nazwę produktu.
+     */
     public String getProductName() {
         return productName;
     }

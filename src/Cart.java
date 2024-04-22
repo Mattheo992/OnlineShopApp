@@ -34,22 +34,23 @@ public class Cart {
      * @throws ProductNotAvailableException Rzucany wyjątek, w przypadku braku produktu
      */
     public void addProduct(Product product, int quantity) throws ProductNotAvailableException {
-            Optional<Product> optionalProduct = productManager.findById(product.getId());
-            if (optionalProduct.isPresent()) {
-                Product foundProduct = optionalProduct.get();
-                if (foundProduct.getQuantityAvailable() >= quantity) {
-                    for (int i = 0; i < quantity; i++) {
-                        products.add(foundProduct);
-                    }
-                    productManager.decrementQuantity(foundProduct.getId(), quantity);
-                    System.out.println("Produkt został dodany do koszyka");
-                } else {
-                    System.out.println("Nie ma wystarczającej ilości produktów na magazynie");
+        // Kod obsługujący dodawanie produktów ogólnego typu Product
+        Optional<Product> optionalProduct = productManager.findById(product.getId());
+        if (optionalProduct.isPresent()) {
+            Product foundProduct = optionalProduct.get();
+            if (foundProduct.getQuantityAvailable() >= quantity) {
+                for (int i = 0; i < quantity; i++) {
+                    products.add(foundProduct);
                 }
+                productManager.decrementQuantity(foundProduct.getId(), quantity);
+                System.out.println("Produkt został dodany do koszyka");
             } else {
-                System.out.println("Produkt o podanym ID nie został znaleziony.");
+                System.out.println("Nie ma wystarczającej ilości produktów na magazynie");
             }
+        } else {
+            System.out.println("Produkt o podanym ID nie został znaleziony.");
         }
+    }
 
     /**
      * Usuwa produkt z koszyka w konkretnej ilości
