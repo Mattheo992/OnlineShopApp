@@ -88,23 +88,12 @@ public class Cart {
      */
     public void viewCart() {
         Scanner scanner = new Scanner(System.in);
-        while (true) {
-            if (products.isEmpty()) {
-                System.out.println("Koszyk jest pusty");
-                break;
-            } else {
-                System.out.println("Aktualna zawartość koszyka: ");
-                for (Product product : products) {
-                    System.out.println(product);
-                }
-            }
-
-            System.out.println("Wciśnij 0, aby wrócić do menu głównego:");
-            int input = scanner.nextInt();
-            if (input == 0) {
-                break; //
-            } else {
-                System.out.println("Nieprawidłowe wejście. Spróbuj ponownie.");
+        if (products.isEmpty()) {
+            System.out.println("Koszyk jest pusty");
+        } else {
+            System.out.println("Aktualna zawartość koszyka: ");
+            for (Product product : products) {
+                System.out.println(product);
             }
         }
     }

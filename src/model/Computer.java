@@ -17,11 +17,11 @@ public class Computer extends Product {
      * Konstruktor domyślny dla klasy model.Computer, ustawiający domyślne wartości dla komputera.
      */
     public Computer() {
-        super(999, "Komputer", BigDecimal.ZERO, 1);
-        this.processor = "Standardowy procesor";
-        this.ram = 8;
-        this.ssdDriveCapacity = 256;
-        this.charger = 65;
+        super(0, null, BigDecimal.ZERO, 1);
+        this.processor = null;
+        this.ram = 0;
+        this.ssdDriveCapacity = 0;
+        this.charger = 0;
     }
 
     /**

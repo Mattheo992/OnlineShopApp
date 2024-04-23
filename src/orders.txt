@@ -1,8 +1,2 @@
-ID zamówienia: 652
-Zamówione produkty: [Komputer{id = 999, nazwa produktu = Spersonalizowany komputer, procesor ='Intel Core i5-13600KF', pamięć ram =16, pojemność dysku SSD =512 GB , zasilacz =650 W }]
-Wartość zamówienia: 3467.0
-Imię klienta: Matesad
-Nazwisko: asdasd
-Adres klienta: dfgsfd
-Zamówienie złożono: 2024-04-21T21:14:21.659521200+02:00[Europe/Warsaw]
+
 
