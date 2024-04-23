@@ -92,12 +92,9 @@ public class ProductManager {
      * @return Obiekt Optional zawierający znaleziony produkt lub pusty, jeśli produkt nie został znaleziony.
      */
     public Optional<Product> findById(long productId) {
-        for (Product product : products) {
-            if (product.getId() == productId) {
-                return Optional.of(product);
-            }
-        }
-        return Optional.empty();
+        return products.stream()
+                .filter(product -> product.getId() == productId)
+                .findFirst();
     }
 
     /**

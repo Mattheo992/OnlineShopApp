@@ -76,11 +76,9 @@ public class OrderProcessor {
          * @return Łączna wartość zamówienia.
          */
         private BigDecimal calculateOrderTotal(List<Product> products) {
-            BigDecimal total = BigDecimal.ZERO;
-            for (Product product : products) {
-                total = total.add(product.getPrice());
-            }
-            return total;
+            return products.stream()
+                    .map(Product::getPrice)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
         }
 
         /**

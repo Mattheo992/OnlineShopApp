@@ -3,7 +3,7 @@ import java.time.ZoneId;
 import java.util.*;
 
 /**
- * Klasa reprezentująca interface wiersza poleceń do obsługi sklepu.
+ * Klasa reprezentująca interfejs wiersza poleceń do obsługi sklepu.
  */
 public class CommandLineInterface {
     private ProductManager productManager; //Manager produktu
@@ -21,10 +21,10 @@ public class CommandLineInterface {
     }
 
     /**
-     * Metoda rozpoczynająca interakcję z interface wiersza poleceń.
+     * Metoda rozpoczynająca interakcję z interfejsem wiersza poleceń.
      *
      * @throws ProductNotAvailableException Rzucany wyjątek, gdy produkt jest niedostępny
-     * @throws OrderProcessingException     Rzucany wyjatek, gdy wystąpi problem podczas przetwarzania zamówienia
+     * @throws OrderProcessingException     Rzucany wyjątek, gdy wystąpi problem podczas przetwarzania zamówienia
      */
     public void start() throws ProductNotAvailableException, OrderProcessingException {
         System.out.println("Witaj w moim sklepie.");
@@ -40,7 +40,7 @@ public class CommandLineInterface {
             System.out.println("7 - Złóż zamówienie.");
             System.out.println("8 - Wyjście");
             command = scanner.nextInt();
-            scanner.nextLine();
+            scanner.nextLine(); //consume newline
             switch (command) {
                 case 1:
                     displayAvailableProducts();
@@ -49,7 +49,7 @@ public class CommandLineInterface {
                     addToCart();
                     break;
                 case 3:
-                    removeProductFromCar();
+                    removeProductFromCart();
                     break;
                 case 4:
                     setUpComputer();
@@ -58,7 +58,7 @@ public class CommandLineInterface {
                     setUpSmartphone();
                     break;
                 case 6:
-                    cart.viewCart();
+                    viewCart();
                     break;
                 case 7:
                     placeOrder();
@@ -74,15 +74,14 @@ public class CommandLineInterface {
     }
 
     /**
-     * Dodaje produkty do koszyka
+     * Dodaje produkty do koszyka.
      *
      * @throws ProductNotAvailableException rzucany wyjątek gdy produkt jest niedostępny
      */
     private void addToCart() throws ProductNotAvailableException {
         System.out.println("Podaj Id produktu, który chcesz dodać do koszyka: ");
         int productId = scanner.nextInt();
-        scanner.nextLine();
-        scanner.nextLine();
+        scanner.nextLine(); //consume newline
         Optional<Product> optionalProduct = productManager.findById(productId);
         if (optionalProduct.isPresent()) {
             Product productToAdd = optionalProduct.get();
@@ -97,9 +96,41 @@ public class CommandLineInterface {
         }
     }
 
-    private void viewCart() {
-        cart.viewCart();
+    /**
+     * Usuwa produkt z koszyka.
+     */
+    private void removeProductFromCart() {
+        System.out.println("Podaj ID produktu do usunięcia z koszyka:");
+        int productIdToRemove = scanner.nextInt();
+        scanner.nextLine(); //consume newline
+        Optional<Product> optionalProductToRemove = productManager.findById(productIdToRemove);
+        if (optionalProductToRemove.isPresent()) {
+            Product productToRemove = optionalProductToRemove.get();
+            System.out.println("Podaj ilość sztuk do usunięcia:");
+            int quantityToRemove = scanner.nextInt();
+            cart.removeProduct(productToRemove, quantityToRemove);
+        } else {
+            System.out.println("Nie można znaleźć produktu o podanym ID");
+        }
     }
+
+    /**
+     * Wyświetla zawartość koszyka.
+     */
+    private void viewCart() {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            cart.viewCart();
+            System.out.println("Wciśnij 0, aby wrócić do menu głównego:");
+            int input = scanner.nextInt();
+            if (input == 0) {
+                break;
+            }
+                System.out.println("Nieprawidłowe wejście. Spróbuj ponownie.");
+
+        }
+    }
+
 
     private void removeProductFromCar() {
         System.out.println("Podaj ID produktu do usunięcia z koszyka:");
@@ -174,7 +205,32 @@ public class CommandLineInterface {
             Computer computer = new Computer(999, "Spersonalizowany komputer", new BigDecimal("0.00"),
                     1, null, 8, 0, 0);
             BigDecimal totalCost = BigDecimal.valueOf(1500.00);
-            // reszta kodu...
+            // Wybór procesora
+            System.out.println("Wybierz procesor: ");
+            displayComponentsWithPrices(pcComponents.getProcessors());
+            int processorChoice = scanner.nextInt();
+            PcComponents.Component chosenProcessor = pcComponents.getProcessors().get(processorChoice - 1);
+            System.out.println("Wybrano procesor: " + chosenProcessor.getProductName());
+            computer.setProcessor(chosenProcessor.getProductName());
+
+            // Wybór dysku SSD
+            System.out.println("Wybierz dysk SSD: ");
+            displayComponentsWithPrices(pcComponents.getSsds());
+            int ssdChoice = scanner.nextInt();
+            PcComponents.Component chosenSsd = pcComponents.getSsds().get(ssdChoice - 1);
+            System.out.println("Wybrano dysk SSD: " + chosenSsd.getProductName());
+
+            // Wybór zasilacza
+            System.out.println("Wybierz zasilacz: ");
+            displayComponentsWithPrices(pcComponents.getChargers());
+            int chargerChoice = scanner.nextInt();
+            PcComponents.Component chosenCharger = pcComponents.getChargers().get(chargerChoice - 1);
+            System.out.println("Wybrano zasilacz: " + chosenCharger.getProductName());
+            // Przypisanie wartości dysku SSD i zasilacza do komputera
+            int ssdCapacity = extractCapacityFromString(chosenSsd.getProductName());
+            computer.setSsdDriveCapacity(ssdCapacity);
+            int chargerPower = extractPowerFromString(chosenCharger.getProductName());
+            computer.setCharger(chargerPower);
             // Pytanie użytkownika o dodanie komputera do koszyka
             System.out.println("Czy chcesz dodać ten komputer do koszyka? (T/N)");
             String addToCartChoice = scanner.next();
@@ -182,7 +238,6 @@ public class CommandLineInterface {
                 // Dodanie komponentów komputera do koszyka
                 productManager.addProductWithoutComment(computer);
                 cart.addProduct(computer, 1);
-                System.out.println("Komputer został dodany do koszyka.");
             } else {
                 System.out.println("Komputer nie został dodany do koszyka.");
             }
@@ -216,69 +271,68 @@ public class CommandLineInterface {
     }
 
     private void setUpSmartphone() throws ProductNotAvailableException {
-        int command;
-        do {
-            System.out.println("Skonfiguruj swój telefon. Podstawowa cena to 500 zł + koszt poszczególnych komponentów");
-            Smartphone smartphone = new Smartphone(888, "Spersonalizowany smartfon", BigDecimal.ZERO, 1, null, 0);
-            BigDecimal totalCost = BigDecimal.valueOf(500.00);
-            System.out.println("Wybierz kolor telefonu.");
-            System.out.println("Dostępne kolory: ");
-            Smartphone.displayAvailableColors();
-            int colorChoice = scanner.nextInt();
-            scanner.nextLine(); // consume newline
-            Smartphone.Color color = Smartphone.Color.values()[colorChoice - 1];
-            smartphone.setColor(color);
-            System.out.println("Wybierz pojemność baterii: ");
-            System.out.println("1 - 3400 mAh - 39,90 zł.");
-            System.out.println("2 - 3000 mAh - 31,90 zł.");
-            System.out.println("3 - 2850 mAh - 28,99 zł.");
-            int batteryChoice = scanner.nextInt();
-            switch (batteryChoice) {
+        int command = 0;
+        Smartphone smartphone = new Smartphone(888, "Spersonalizowany smartfon", BigDecimal.ZERO, 1, null, 0);
+        BigDecimal totalCost = BigDecimal.valueOf(500.00);
+        System.out.println("Skonfiguruj swój telefon. Podstawowa cena to 500 zł + koszt poszczególnych komponentów");
+        System.out.println("Wybierz kolor telefonu.");
+        System.out.println("Dostępne kolory: ");
+        Smartphone.displayAvailableColors();
+        int colorChoice = scanner.nextInt();
+        scanner.nextLine(); // consume newline
+        Smartphone.Color color = Smartphone.Color.values()[colorChoice - 1];
+        smartphone.setColor(color);
+        System.out.println("Wybierz pojemność baterii: ");
+        System.out.println("1 - 3400 mAh - 39,90 zł.");
+        System.out.println("2 - 3000 mAh - 31,90 zł.");
+        System.out.println("3 - 2850 mAh - 28,99 zł.");
+        int batteryChoice = scanner.nextInt();
+        switch (batteryChoice) {
+            case 1:
+                smartphone.setBatteryCapacity(3400);
+                totalCost = totalCost.add(BigDecimal.valueOf(39.90));
+                break;
+            case 2:
+                smartphone.setBatteryCapacity(3000);
+                totalCost = totalCost.add(BigDecimal.valueOf(31.90));
+                break;
+            case 3:
+                smartphone.setBatteryCapacity(2850);
+                totalCost = totalCost.add(BigDecimal.valueOf(28.99));
+                break;
+            default:
+                System.out.println("Wybrano błędną pojemność baterii");
+                return;
+        }
+        scanner.nextLine();
+        System.out.println("Wybierz akcesoria do telefonu (wprowadź '0' aby zakończyć):");
+        while (true) {
+            System.out.println("1 - Słuchawki Bluetooth JBL - 199,90 zł.");
+            System.out.println("2 - Powerbank - 99,90 zł.");
+            System.out.println("3 - Folia ochronna - 69,90 zł.");
+            System.out.println("0 - Zakończenie konfiguracji");
+            int accessoryChoice = scanner.nextInt();
+            scanner.nextLine();
+            if (accessoryChoice == 0) {
+                break;
+            }
+            switch (accessoryChoice) {
                 case 1:
-                    smartphone.setBatteryCapacity(3400);
-                    totalCost = totalCost.add(BigDecimal.valueOf(39.90));
+                    smartphone.addAccessory("Słuchawki Bluetooth JBL");
+                    totalCost = totalCost.add(BigDecimal.valueOf(199.90));
                     break;
                 case 2:
-                    smartphone.setBatteryCapacity(3000);
-                    totalCost = totalCost.add(BigDecimal.valueOf(31.90));
+                    smartphone.addAccessory("Powerbank");
+                    totalCost = totalCost.add(BigDecimal.valueOf(90.90));
                     break;
                 case 3:
-                    smartphone.setBatteryCapacity(2850);
-                    totalCost = totalCost.add(BigDecimal.valueOf(28.99));
+                    smartphone.addAccessory("Folia ochronna");
+                    totalCost = totalCost.add(BigDecimal.valueOf(69.90));
                     break;
                 default:
-                    System.out.println("Wybrano błędną pojemność baterii");
-                    return;
+                    System.out.println("Wybrano błędne akcesorium.");
             }
-            scanner.nextLine();
-            System.out.println("Wybierz akcesoria do telefonu (wprowadź '0' aby zakończyć):");
-            while (true) {
-                System.out.println("1 - Słuchawki Bluetooth JBL - 199,90 zł.");
-                System.out.println("2 - Powerbank - 99,90 zł.");
-                System.out.println("3 - Folia ochronna - 69,90 zł.");
-                System.out.println("0 - Zakończenie konfiguracji");
-                int accessoryChoice = scanner.nextInt();
-                scanner.nextLine();
-                if (accessoryChoice == 0) {
-                    break;
-                }
-                switch (accessoryChoice) {
-                    case 1:
-                        smartphone.addAccessory("Słuchawki Bluetooth JBL");
-                        totalCost = totalCost.add(BigDecimal.valueOf(199.90));
-                        break;
-                    case 2:
-                        smartphone.addAccessory("Powerbank");
-                        totalCost = totalCost.add(BigDecimal.valueOf(90.90));
-                        break;
-                    case 3:
-                        smartphone.addAccessory("Folia ochronna");
-                        totalCost = totalCost.add(BigDecimal.valueOf(69.90));
-                        break;
-                    default:
-                        System.out.println("Wybrano błędne akcesorium.");
-                }
-            }
+
 
             System.out.println("Konfiguracja telefonu zakończona. Wybrano:");
             System.out.println("Kolor: " + smartphone.getColor());
@@ -301,7 +355,7 @@ public class CommandLineInterface {
             if (addProductToCart.equalsIgnoreCase("T")) {
                 smartphone.setPrice(totalCost);
                 try {
-                    cart.addProduct(smartphone, 1);
+                    cart.addProduct(smartphone, 1); // Poprawka na dodanie smartfona
                     System.out.println("Całkowita kwota za telefon i ewentualne akcesoria wynosi " + totalCost + " zł.");
                 } catch (ProductNotAvailableException e) {
                     System.out.println("Nie można dodać telefonu do koszyka, jest niedostępny na magazynie");
@@ -312,6 +366,7 @@ public class CommandLineInterface {
             System.out.println("Naciśnij 0, aby wrócić do menu głównego.");
             command = scanner.nextInt();
             scanner.nextLine();
-        } while (command != 0);
+        }
+        while (command != 0) ;
     }
 }

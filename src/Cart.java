@@ -2,6 +2,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Scanner;
+
 /**
  * Klasa reprezentująca koszyk zakupowy w sklepie.
  */
@@ -16,6 +18,7 @@ public class Cart {
     public Cart() {
         this.products = new ArrayList<>();
     }
+
     /**
      * Konstruktor inicjalizujący koszyk i ustawiający manager produktów.
      *
@@ -29,7 +32,7 @@ public class Cart {
     /**
      * Dodaje produkt do koszyka zakupowego
      *
-     * @param product Produkt do dodania
+     * @param product  Produkt do dodania
      * @param quantity ilość produktu do dodania.
      * @throws ProductNotAvailableException Rzucany wyjątek, w przypadku braku produktu
      */
@@ -54,7 +57,8 @@ public class Cart {
 
     /**
      * Usuwa produkt z koszyka w konkretnej ilości
-     * @param product produkt do usunięcia z koszyka
+     *
+     * @param product  produkt do usunięcia z koszyka
      * @param quantity ilość produktu do usunięcia z koszyka
      */
     public void removeProduct(Product product, int quantity) {
@@ -78,18 +82,31 @@ public class Cart {
      * Wyświetla zawartość koszyka.
      */
     public void viewCart() {
-        if (products.isEmpty()) {
-            System.out.println("Koszyk jest pusty");
-        } else {
-            System.out.println("Aktualna zawartość koszyka: ");
-            for (Product product : products) {
-                System.out.println(product);
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            if (products.isEmpty()) {
+                System.out.println("Koszyk jest pusty");
+                break; // Wyjście z pętli, jeśli koszyk jest pusty
+            } else {
+                System.out.println("Aktualna zawartość koszyka: ");
+                for (Product product : products) {
+                    System.out.println(product);
+                }
+            }
+
+            System.out.println("Wciśnij 0, aby wrócić do menu głównego:");
+            int input = scanner.nextInt();
+            if (input == 0) {
+                break; // Wyjście z pętli, jeśli użytkownik wciśnie 0
+            } else {
+                System.out.println("Nieprawidłowe wejście. Spróbuj ponownie.");
             }
         }
     }
 
     /**
      * Zwraca listę produktów w koszyku.
+     *
      * @return Lista produktów w koszyku.
      */
     public List<Product> getCartItems() {
@@ -98,30 +115,24 @@ public class Cart {
 
     /**
      * Oblicza całkowitą kwotę za produkty w koszyku
+     *
      * @return całkowita kwota za produkty w koszyku
      */
     public BigDecimal calculateTotalAmount() {
-        BigDecimal totalAmount = BigDecimal.ZERO;
-        for (Product product : products) {
-            BigDecimal productPrice = product.getPrice();
-            BigDecimal quantity = BigDecimal.valueOf(getProductQuantityInCart(product));
-            totalAmount = totalAmount.add(productPrice.multiply(quantity));
-        }
-        return totalAmount;
+        return products.stream()
+                .map(Product::getPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     /**
      * Zwraca ilość konkretnego produktu w koszyku
+     *
      * @param product Produkt, którego ilość produktu zostanie zwrócona
      * @return ilość produktu w koszyku
      */
     private int getProductQuantityInCart(Product product) {
-        int quantityInCart = 0;
-        for (Product cartProduct : products) {
-            if (cartProduct.equals(product)) {
-                quantityInCart++;
-            }
-        }
-        return quantityInCart;
+        return (int) products.stream()
+                .filter(p -> p.equals(product))
+                .count();
     }
 }
