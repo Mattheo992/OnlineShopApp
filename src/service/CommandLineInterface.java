@@ -1,4 +1,5 @@
 package service;
+
 import repository.ProductManager;
 import exception.OrderProcessingException;
 import exception.ProductNotAvailableException;
@@ -6,9 +7,11 @@ import model.Computer;
 import model.Product;
 import model.PcComponents;
 import model.Customer;
+
 import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.util.*;
+
 import model.Smartphone;
 import model.Order;
 
@@ -165,9 +168,8 @@ public class CommandLineInterface {
         ZoneId orderTime = ZoneId.systemDefault();
         Order order = new Order(orderId, customer, cartItems, totalAmount, orderTime);
         orderProcessor.processOrder(order);
-
         for (Product product : cartItems) {
-            productManager.decrementQuantity(product.getId(), 1);
+            product.decreaseQuantity(1);
         }
         System.out.println("Zamówienie zostało złożone. Dziękujemy!");
     }
@@ -221,18 +223,21 @@ public class CommandLineInterface {
             PcComponents.Component chosenProcessor = pcComponents.getProcessors().get(processorChoice - 1);
             System.out.println("Wybrano procesor: " + chosenProcessor.getProductName());
             computer.setProcessor(chosenProcessor.getProductName());
+            totalCost = totalCost.add(chosenProcessor.getPrice()); // Aktualizacja ceny
             // Wybór dysku SSD
             System.out.println("Wybierz dysk SSD: ");
             displayComponentsWithPrices(pcComponents.getSsds());
             int ssdChoice = scanner.nextInt();
             PcComponents.Component chosenSsd = pcComponents.getSsds().get(ssdChoice - 1);
             System.out.println("Wybrano dysk SSD: " + chosenSsd.getProductName());
+            totalCost = totalCost.add(chosenSsd.getPrice()); // Aktualizacja ceny
             // Wybór zasilacza
             System.out.println("Wybierz zasilacz: ");
             displayComponentsWithPrices(pcComponents.getChargers());
             int chargerChoice = scanner.nextInt();
             PcComponents.Component chosenCharger = pcComponents.getChargers().get(chargerChoice - 1);
             System.out.println("Wybrano zasilacz: " + chosenCharger.getProductName());
+            totalCost = totalCost.add(chosenCharger.getPrice()); // Aktualizacja ceny
             // Przypisanie wartości dysku SSD i zasilacza do komputera
             int ssdCapacity = extractCapacityFromString(chosenSsd.getProductName());
             computer.setSsdDriveCapacity(ssdCapacity);
@@ -245,6 +250,7 @@ public class CommandLineInterface {
                 // Dodanie komponentów komputera do koszyka
                 productManager.addProductWithoutComment(computer);
                 cart.addProduct(computer, 1);
+                System.out.println("Całkowita kwota za komputer: " + totalCost + " zł");
             } else {
                 System.out.println("Komputer nie został dodany do koszyka.");
             }
@@ -253,6 +259,7 @@ public class CommandLineInterface {
             scanner.nextLine();
         } while (command != 0);
     }
+
 
     /**
      * Wyodrębnia pojemność dysku SSD z nazwy.
@@ -279,23 +286,6 @@ public class CommandLineInterface {
     }
 
     /**
-     * Pobiera wybór użytkownika z listy komponentów.
-     *
-     * @param components Lista komponentów.
-     * @return Wybór użytkownika.
-     */
-    private int getUserChoice(List<PcComponents.Component> components) {
-        int choice;
-        do {
-            choice = scanner.nextInt();
-            if (choice < 1 || choice > components.size()) {
-                System.out.println("Niepoprawny numer komponentu. Spróbuj ponownie.");
-            }
-        } while (choice < 1 || choice > components.size());
-        return choice;
-    }
-
-    /**
      * Konfiguruje smartfon na podstawie wyboru użytkownika.
      *
      * @throws ProductNotAvailableException Rzucany wyjątek, gdy produkt jest niedostępny
@@ -309,7 +299,7 @@ public class CommandLineInterface {
         System.out.println("Dostępne kolory: ");
         Smartphone.displayAvailableColors();
         int colorChoice = scanner.nextInt();
-        scanner.nextLine(); // consume newline
+        scanner.nextLine();
         Smartphone.Color color = Smartphone.Color.values()[colorChoice - 1];
         smartphone.setColor(color);
         System.out.println("Wybierz pojemność baterii: ");
@@ -348,55 +338,29 @@ public class CommandLineInterface {
             }
             switch (accessoryChoice) {
                 case 1:
-                    smartphone.addAccessory("Słuchawki Bluetooth JBL");
                     totalCost = totalCost.add(BigDecimal.valueOf(199.90));
                     break;
                 case 2:
-                    smartphone.addAccessory("Powerbank");
-                    totalCost = totalCost.add(BigDecimal.valueOf(90.90));
+                    totalCost = totalCost.add(BigDecimal.valueOf(99.90));
                     break;
                 case 3:
-                    smartphone.addAccessory("Folia ochronna");
                     totalCost = totalCost.add(BigDecimal.valueOf(69.90));
                     break;
                 default:
-                    System.out.println("Wybrano błędne akcesorium.");
+                    System.out.println("Wybrano błędną opcję");
             }
-
-
-            System.out.println("Konfiguracja telefonu zakończona. Wybrano:");
-            System.out.println("Kolor: " + smartphone.getColor());
-            System.out.println("Pojemność baterii: " + smartphone.getBatteryCapacity() + " mAh");
-            System.out.println("Akcesoria:");
-            for (String accessory : smartphone.getAccessories()) {
-                System.out.println("- " + accessory);
-            }
-            System.out.println("Łączna cena: " + totalCost + " zł");
-
-            System.out.println("Wybrane opcje:");
-            System.out.println("Kolor: " + smartphone.getColor());
-            System.out.println("Pojemność baterii: " + smartphone.getBatteryCapacity() + " mAh");
-            if (!smartphone.getAccessories().isEmpty()) {
-                System.out.println("Akcesoria: " + smartphone.getAccessories());
-            }
-            System.out.println("Całkowity koszt: " + totalCost + " zł");
-            System.out.println("Czy chcesz dodać produkt do koszyka? (T/N)");
-            String addProductToCart = scanner.nextLine();
-            if (addProductToCart.equalsIgnoreCase("T")) {
-                smartphone.setPrice(totalCost);
-                try {
-                    cart.addProduct(smartphone, 1); // Poprawka na dodanie smartfona
-                    System.out.println("Całkowita kwota za telefon i ewentualne akcesoria wynosi " + totalCost + " zł.");
-                } catch (ProductNotAvailableException e) {
-                    System.out.println("Nie można dodać telefonu do koszyka, jest niedostępny na magazynie");
-                }
-            } else {
-                System.out.println("Telefon nie został dodany do koszyka");
-            }
-            System.out.println("Naciśnij 0, aby wrócić do menu głównego.");
-            command = scanner.nextInt();
-            scanner.nextLine();
         }
-        while (command != 0) ;
+        System.out.println("Czy chcesz dodać ten telefon do koszyka? (T/N)");
+        String addToCartChoice = scanner.next();
+        if (addToCartChoice.equalsIgnoreCase("T")) {
+            productManager.addProductWithoutComment(smartphone);
+            cart.addProduct(smartphone, 1);
+            System.out.println("Całkowita kwota za telefon: " + totalCost + " zł");
+        } else {
+            System.out.println("Telefon nie został dodany do koszyka.");
+        }
+        System.out.println("Naciśnij 0, aby wrócić do menu głównego.");
+        command = scanner.nextInt();
+        scanner.nextLine();
     }
 }

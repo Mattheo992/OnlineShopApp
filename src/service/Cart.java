@@ -2,13 +2,13 @@ package service;
 
 import exception.ProductNotAvailableException;
 import model.Product;
+import repository.ProductManager;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
-import repository.ProductManager;
 
 /**
  * Klasa reprezentująca koszyk zakupowy w sklepie.
@@ -43,7 +43,6 @@ public class Cart {
      * @throws ProductNotAvailableException Rzucany wyjątek, w przypadku braku produktu
      */
     public void addProduct(Product product, int quantity) throws ProductNotAvailableException {
-        // Kod obsługujący dodawanie produktów ogólnego typu model.Product
         Optional<Product> optionalProduct = productManager.findById(product.getId());
         if (optionalProduct.isPresent()) {
             Product foundProduct = optionalProduct.get();
@@ -92,7 +91,7 @@ public class Cart {
         while (true) {
             if (products.isEmpty()) {
                 System.out.println("Koszyk jest pusty");
-                break; // Wyjście z pętli, jeśli koszyk jest pusty
+                break;
             } else {
                 System.out.println("Aktualna zawartość koszyka: ");
                 for (Product product : products) {
@@ -103,7 +102,7 @@ public class Cart {
             System.out.println("Wciśnij 0, aby wrócić do menu głównego:");
             int input = scanner.nextInt();
             if (input == 0) {
-                break; // Wyjście z pętli, jeśli użytkownik wciśnie 0
+                break; //
             } else {
                 System.out.println("Nieprawidłowe wejście. Spróbuj ponownie.");
             }

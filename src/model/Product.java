@@ -74,6 +74,32 @@ public class Product {
     }
 
     /**
+     * Metoda zmniejszająca ilość dostępnych produktów o podaną wartość.
+     *
+     * @param quantity Ilość produktów do zmniejszenia.
+     * @throws IllegalArgumentException jeśli quantity jest mniejsze od 0
+     */
+    public void decreaseQuantity(int quantity) {
+        if (quantity < 0) {
+            throw new IllegalArgumentException("Ilość produktów do zmniejszenia nie może być ujemna.");
+        }
+        this.quantityAvailable -= quantity;
+    }
+
+    /**
+     * Metoda zwiększająca ilość dostępnych produktów o podaną wartość.
+     *
+     * @param quantity Ilość produktów do zwiększenia.
+     * @throws IllegalArgumentException jeśli quantity jest mniejsze od 0
+     */
+    public void increaseQuantity(int quantity) {
+        if (quantity < 0) {
+            throw new IllegalArgumentException("Ilość produktów do zwiększenia nie może być ujemna.");
+        }
+        this.quantityAvailable += quantity;
+    }
+
+    /**
      * Metoda porównująca dwa obiekty produktu.
      *
      * @param o Obiekt do porównania.

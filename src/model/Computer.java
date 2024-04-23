@@ -108,14 +108,4 @@ public class Computer extends Product {
                 ", zasilacz=" + charger + " W" +
                 '}';
     }
-
-    /**
-     * Metoda ustawiająca komputer na podstawie wyboru użytkownika.
-     *
-     * @param pcComponents   Lista dostępnych komponentów
-     * @param scanner        Obiekt Scanner do pobierania danych od użytkownika
-     * @param productManager Manager produktów do dodania komputera do koszyka
-     * @throws ProductNotAvailableException Wyjątek rzucany, gdy komponent nie jest dostępny
-     */
-
     }
