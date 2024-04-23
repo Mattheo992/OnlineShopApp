@@ -1,3 +1,7 @@
+package model;
+
+import model.Order;
+
 import java.math.BigDecimal;
 
 /**
@@ -28,7 +32,7 @@ public class Customer {
     }
 
     /**
-     * Konstruktor klasy Customer
+     * Konstruktor klasy model.Customer
      * @param customerName imię klienta
      * @param customerLastName nazwisko klienta.
      * @param email email klienta
@@ -51,7 +55,7 @@ public class Customer {
      */
     @Override
     public String toString() {
-        return "Customer{" +
+        return "model.Customer{" +
                 "customerName='" + customerName + '\'' +
                 ", customerLastName='" + customerLastName + '\'' +
                 ", email='" + email + '\'' +

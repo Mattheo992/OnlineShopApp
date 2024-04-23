@@ -1,3 +1,5 @@
+package model;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
@@ -12,7 +14,7 @@ public class Computer extends Product {
     private int charger; // Zasilacz
 
     /**
-     * Konstruktor domyślny dla klasy Computer, ustawiający domyślne wartości dla komputera.
+     * Konstruktor domyślny dla klasy model.Computer, ustawiający domyślne wartości dla komputera.
      */
     public Computer() {
         super(999, "Komputer", BigDecimal.ZERO, 1);
@@ -23,7 +25,7 @@ public class Computer extends Product {
     }
 
     /**
-     * Konstruktor klasy Computer z podanymi parametrami.
+     * Konstruktor klasy model.Computer z podanymi parametrami.
      *
      * @param id                Identyfikator komputera
      * @param productName       Nazwa produktu
@@ -35,7 +37,7 @@ public class Computer extends Product {
     }
 
     /**
-     * Konstruktor klasy Computer z podanymi parametrami.
+     * Konstruktor klasy model.Computer z podanymi parametrami.
      *
      * @param id                Identyfikator komputera
      * @param productName       Nazwa produktu
@@ -91,9 +93,9 @@ public class Computer extends Product {
     }
 
     /**
-     * Zwraca tekstową reprezentację obiektu klasy Computer.
+     * Zwraca tekstową reprezentację obiektu klasy model.Computer.
      *
-     * @return tekstowa reprezentacja obiektu klasy Computer
+     * @return tekstowa reprezentacja obiektu klasy model.Computer
      */
     @Override
     public String toString() {

@@ -1,3 +1,14 @@
+import exception.OrderProcessingException;
+import exception.ProductNotAvailableException;
+import model.Computer;
+import model.Electronics;
+import model.PcComponents;
+import model.Smartphone;
+import repository.ProductManager;
+import service.Cart;
+import service.CommandLineInterface;
+import service.OrderProcessor;
+
 import java.math.BigDecimal;
 import java.util.Scanner;
 
@@ -8,12 +19,10 @@ public class Test {
         OrderProcessor orderProcessor = new OrderProcessor();
         Scanner scanner = new Scanner(System.in);
         PcComponents pcComponents = new PcComponents();
-
-
-
+        
         CommandLineInterface cli = new CommandLineInterface(productManager, cart, orderProcessor, scanner, pcComponents);
         Smartphone smartphone1 = new Smartphone(1, "telefon Samsung Galaxy S22 8/128", new BigDecimal("2399.99"), 7, Smartphone.Color.BLACK, 3700);
-        Smartphone smartphone2 = new Smartphone(2, "telefon Apple Iphone 15 128GB",new BigDecimal("3699.99"), 3, Smartphone.Color.SILVER, 4000);
+        Smartphone smartphone2 = new Smartphone(2, "telefon Apple Iphone 15 128GB", new BigDecimal("3699.99"), 3, Smartphone.Color.SILVER, 4000);
         Smartphone smartphone3 = new Smartphone(3, "telefon Xiaomi Redmi Note 11S 6/128GB", new BigDecimal("99.16"), 16, Smartphone.Color.WHITE, 3500);
         Smartphone smartphone4 = new Smartphone(4, "telefon Nothing Phone (2a) 5G 12/256GB Black 120Hz", new BigDecimal("1679.00"), 2, Smartphone.Color.BLACK, 4000);
         Smartphone smartphone5 = new Smartphone(5, "telefon Xiaomi POCO X6 Pro 5G 12/512GB Black", new BigDecimal("1699.99"), 24, Smartphone.Color.BLUE, 4250);

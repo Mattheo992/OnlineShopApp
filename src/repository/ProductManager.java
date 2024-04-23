@@ -1,3 +1,9 @@
+package repository;
+
+import exception.ProductNotAvailableException;
+import model.Product;
+
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -7,10 +13,14 @@ import java.util.Optional;
  */
 public class ProductManager {
 
-    /** Lista przechowująca produkty w magazynie. */
+    /**
+     * Lista przechowująca produkty w magazynie.
+     */
     private List<Product> products;
 
-    /** Konstruktor tworzący nowy obiekt ProductManager. */
+    /**
+     * Konstruktor tworzący nowy obiekt repository.ProductManager.
+     */
     public ProductManager() {
         this.products = new ArrayList<>();
     }
@@ -27,18 +37,18 @@ public class ProductManager {
         products.add(product);
         System.out.println("Produkt został dodany.");
     }
+
     /**
      * Metoda dodająca produkt do magazynu bez komentarza o dodanym produkcie.
      *
      * @param product Produkt do dodania.
      */
-    public void addProductWithoutComment (Product product) throws ProductNotAvailableException {
+    public void addProductWithoutComment(Product product) throws ProductNotAvailableException {
         if (product.getQuantityAvailable() <= 0) {
             throw new ProductNotAvailableException("Produkt jest niedostępny w magazynie.");
         }
         products.add(product);
     }
-
 
     /**
      * Metoda usuwająca produkt z magazynu.
@@ -54,7 +64,9 @@ public class ProductManager {
         }
     }
 
-    /** Metoda wyświetlająca wszystkie produkty w magazynie. */
+    /**
+     * Metoda wyświetlająca wszystkie produkty w magazynie.
+     */
     public void displayProducts() {
         if (products.isEmpty()) {
             System.out.println("Brak produktów w magazynie.");
@@ -64,6 +76,15 @@ public class ProductManager {
                 System.out.println("ID: " + product.getId() + ", Nazwa: " + product.getProductName()
                         + ", Cena: " + product.getPrice() + ", Dostępna ilość: " + product.getQuantityAvailable());
             }
+        }
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Naciśnij 0, aby wrócić do menu głównego.");
+        int input = scanner.nextInt();
+        if (input == 0) {
+            return; // Powrót do menu głównego
+        } else {
+            System.out.println("Nieprawidłowy wybór.");
         }
     }
 

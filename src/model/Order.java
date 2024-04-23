@@ -1,3 +1,5 @@
+package model;
+
 import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -14,7 +16,7 @@ public class Order {
     private ZonedDateTime orderTime;
 
     /**
-     * Konstruktor klasy Order.
+     * Konstruktor klasy model.Order.
      * @param orderId Id zamówienia
      * @param customer klient
      * @param products lista produktów w zamówieniu
@@ -101,12 +103,12 @@ public class Order {
     }
 
     /**
-     * Zwraca tekstową reprezentację obiektu klasy Order.
-     * @return tekstowa reprezentacja obiektu klasy Order.
+     * Zwraca tekstową reprezentację obiektu klasy model.Order.
+     * @return tekstowa reprezentacja obiektu klasy model.Order.
      */
     @Override
     public String toString() {
-        return "Order{" +
+        return "model.Order{" +
                 "Id zamówienia =" + orderId +
                 ", dane klienta =" + customer +
                 ", produkty=" + products +

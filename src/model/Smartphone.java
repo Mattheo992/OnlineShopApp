@@ -1,3 +1,5 @@
+package model;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +26,7 @@ public class Smartphone extends Product {
     private List<String> accessories;
 
     /**
-     * Konstruktor tworzący nowy obiekt Smartphone z określonymi parametrami.
+     * Konstruktor tworzący nowy obiekt model.Smartphone z określonymi parametrami.
      *
      * @param id                Identyfikator telefonu.
      * @param name              Nazwa telefonu.
@@ -40,10 +42,10 @@ public class Smartphone extends Product {
         this.accessories = new ArrayList<>();
     }
     /**
-     * Konstruktor tworzący nowy obiekt Smartphone z domyślnymi parametrami.
+     * Konstruktor tworzący nowy obiekt model.Smartphone z domyślnymi parametrami.
      */
     public Smartphone() {
-        super(888, "Smartphone", BigDecimal.ZERO, 1);
+        super(888, "model.Smartphone", BigDecimal.ZERO, 1);
         this.color = null;
         this.batteryCapacity = 0;
         this.accessories = new ArrayList<>();
@@ -115,13 +117,13 @@ public class Smartphone extends Product {
     }
 
     /**
-     * Metoda zwracająca reprezentację tekstową obiektu Smartphone.
+     * Metoda zwracająca reprezentację tekstową obiektu model.Smartphone.
      *
-     * @return Reprezentacja tekstowa obiektu Smartphone.
+     * @return Reprezentacja tekstowa obiektu model.Smartphone.
      */
     @Override
     public String toString() {
-        return "Smartphone{" + "id = " + getId() +
+        return "model.Smartphone{" + "id = " + getId() +
                 ", nazwa produktu = " + getProductName() +
                 ", kolor =" + color +
                 ", pojemność baterii =" + batteryCapacity +

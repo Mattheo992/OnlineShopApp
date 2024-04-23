@@ -1,3 +1,5 @@
+package model;
+
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -102,7 +104,7 @@ public class Product {
      */
     @Override
     public String toString() {
-        return "Product{" +
+        return "model.Product{" +
                 "Id=" + id +
                 ", Nazwa produktu='" + productName + '\'' +
                 ", Cena=" + price +

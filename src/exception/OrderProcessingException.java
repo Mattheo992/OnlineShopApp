@@ -1,10 +1,12 @@
+package exception;
+
 /**
  * Wyjątek rzucany podczas przetwarzania zamówienia.
  */
 public class OrderProcessingException extends Exception {
 
     /**
-     * Konstruktor klasy OrderProcessingException.
+     * Konstruktor klasy exception.OrderProcessingException.
      *
      * @param message Komunikat błędu wyjątku
      */

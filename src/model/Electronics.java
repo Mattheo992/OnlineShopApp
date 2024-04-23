@@ -1,12 +1,16 @@
+package model;
+
+import model.Product;
+
 import java.math.BigDecimal;
 
 /**
  * Klasa reprezentująca elektronikę.
- * Klasa dziedzicząca po klasie Product
+ * Klasa dziedzicząca po klasie model.Product
  */
-public class Electronics extends Product{
+public class Electronics extends Product {
     /**
-     * Konstruktor dla klasy Electronics
+     * Konstruktor dla klasy model.Electronics
      * @param id Id produktu
      * @param productName nazwa produktu
      * @param price cena produktu

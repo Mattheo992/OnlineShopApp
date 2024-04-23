@@ -1,3 +1,9 @@
+package service;
+
+import model.Customer;
+import model.Order;
+import model.Product;
+
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.Collections;
@@ -13,7 +19,7 @@ public class OrderProcessor {
     private final ExecutorService EXECUTOR;
 
     /**
-     * Konstruktor tworzący nowy obiekt OrderProcessor.
+     * Konstruktor tworzący nowy obiekt service.OrderProcessor.
      */
     public OrderProcessor() {
         this.EXECUTOR = Executors.newFixedThreadPool(5);

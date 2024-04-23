@@ -1,6 +1,17 @@
+package service;
+import repository.ProductManager;
+import exception.OrderProcessingException;
+import exception.ProductNotAvailableException;
+import model.Computer;
+import model.Product;
+import model.PcComponents;
+import model.Customer;
 import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.util.*;
+import model.Smartphone;
+import model.Order;
+
 
 /**
  * Klasa reprezentująca interfejs wiersza poleceń do obsługi sklepu.
@@ -81,7 +92,7 @@ public class CommandLineInterface {
     private void addToCart() throws ProductNotAvailableException {
         System.out.println("Podaj Id produktu, który chcesz dodać do koszyka: ");
         int productId = scanner.nextInt();
-        scanner.nextLine(); //consume newline
+        scanner.nextLine();
         Optional<Product> optionalProduct = productManager.findById(productId);
         if (optionalProduct.isPresent()) {
             Product productToAdd = optionalProduct.get();
@@ -126,27 +137,14 @@ public class CommandLineInterface {
             if (input == 0) {
                 break;
             }
-                System.out.println("Nieprawidłowe wejście. Spróbuj ponownie.");
+            System.out.println("Nieprawidłowe wejście. Spróbuj ponownie.");
 
         }
     }
 
-
-    private void removeProductFromCar() {
-        System.out.println("Podaj ID produktu do usunięcia z koszyka:");
-        int productIdToRemove = scanner.nextInt();
-        scanner.nextLine();
-        Optional<Product> optionalProductToRemove = productManager.findById(productIdToRemove);
-        if (optionalProductToRemove.isPresent()) {
-            Product productToRemove = optionalProductToRemove.get();
-            System.out.println("Podaj ilość sztuk do usunięcia:");
-            int quantityToRemove = scanner.nextInt();
-            cart.removeProduct(productToRemove, quantityToRemove);
-        } else {
-            System.out.println("Nie można znaleźć produktu o podanym ID");
-        }
-    }
-
+    /**
+     * Składa zamówienie na podstawie zawartości koszyka.
+     */
     private void placeOrder() {
         System.out.println("Podaj swoje dane użytkownika");
         System.out.println("Podaj imię:");
@@ -174,22 +172,28 @@ public class CommandLineInterface {
         System.out.println("Zamówienie zostało złożone. Dziękujemy!");
     }
 
+    /**
+     * Generuje losowy identyfikator zamówienia.
+     *
+     * @return Losowy identyfikator zamówienia.
+     */
     private int generateOrderId() {
         Random random = new Random();
         return random.nextInt(1000);
     }
 
+    /**
+     * Wyświetla dostępne produkty w sklepie.
+     */
     public void displayAvailableProducts() {
         productManager.displayProducts();
     }
 
-    private void displayComponents(List<PcComponents.Component> components) {
-        for (int i = 0; i < components.size(); i++) {
-            PcComponents.Component component = components.get(i);
-            System.out.println((i + 1) + " - " + component.getProductName() + " - " + component.getPrice() + " zł");
-        }
-    }
-
+    /**
+     * Wyświetla komponenty wraz z ich cenami.
+     *
+     * @param components Lista komponentów do wyświetlenia.
+     */
     private void displayComponentsWithPrices(List<PcComponents.Component> components) {
         for (int i = 0; i < components.size(); i++) {
             PcComponents.Component component = components.get(i);
@@ -197,6 +201,11 @@ public class CommandLineInterface {
         }
     }
 
+    /**
+     * Konfiguruje komputer na podstawie wyboru użytkownika.
+     *
+     * @throws ProductNotAvailableException Rzucany wyjątek, gdy produkt jest niedostępny
+     */
     private void setUpComputer() throws ProductNotAvailableException {
         int command;
         do {
@@ -212,14 +221,12 @@ public class CommandLineInterface {
             PcComponents.Component chosenProcessor = pcComponents.getProcessors().get(processorChoice - 1);
             System.out.println("Wybrano procesor: " + chosenProcessor.getProductName());
             computer.setProcessor(chosenProcessor.getProductName());
-
             // Wybór dysku SSD
             System.out.println("Wybierz dysk SSD: ");
             displayComponentsWithPrices(pcComponents.getSsds());
             int ssdChoice = scanner.nextInt();
             PcComponents.Component chosenSsd = pcComponents.getSsds().get(ssdChoice - 1);
             System.out.println("Wybrano dysk SSD: " + chosenSsd.getProductName());
-
             // Wybór zasilacza
             System.out.println("Wybierz zasilacz: ");
             displayComponentsWithPrices(pcComponents.getChargers());
@@ -247,18 +254,36 @@ public class CommandLineInterface {
         } while (command != 0);
     }
 
+    /**
+     * Wyodrębnia pojemność dysku SSD z nazwy.
+     *
+     * @param name Nazwa produktu.
+     * @return Pojemność dysku SSD.
+     */
     private int extractCapacityFromString(String name) {
         String capacityString = name.split(" ")[0];
         capacityString = capacityString.replaceAll("\\D", "");
         return Integer.parseInt(capacityString);
     }
 
+    /**
+     * Wyodrębnia moc zasilacza z nazwy.
+     *
+     * @param name Nazwa produktu.
+     * @return Moc zasilacza.
+     */
     private int extractPowerFromString(String name) {
         String powerString = name.split(" ")[0];
         powerString = powerString.replaceAll("\\D", "");
         return Integer.parseInt(powerString);
     }
 
+    /**
+     * Pobiera wybór użytkownika z listy komponentów.
+     *
+     * @param components Lista komponentów.
+     * @return Wybór użytkownika.
+     */
     private int getUserChoice(List<PcComponents.Component> components) {
         int choice;
         do {
@@ -270,6 +295,11 @@ public class CommandLineInterface {
         return choice;
     }
 
+    /**
+     * Konfiguruje smartfon na podstawie wyboru użytkownika.
+     *
+     * @throws ProductNotAvailableException Rzucany wyjątek, gdy produkt jest niedostępny
+     */
     private void setUpSmartphone() throws ProductNotAvailableException {
         int command = 0;
         Smartphone smartphone = new Smartphone(888, "Spersonalizowany smartfon", BigDecimal.ZERO, 1, null, 0);

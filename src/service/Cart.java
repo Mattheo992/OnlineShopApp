@@ -1,8 +1,14 @@
+package service;
+
+import exception.ProductNotAvailableException;
+import model.Product;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
+import repository.ProductManager;
 
 /**
  * Klasa reprezentująca koszyk zakupowy w sklepie.
@@ -37,7 +43,7 @@ public class Cart {
      * @throws ProductNotAvailableException Rzucany wyjątek, w przypadku braku produktu
      */
     public void addProduct(Product product, int quantity) throws ProductNotAvailableException {
-        // Kod obsługujący dodawanie produktów ogólnego typu Product
+        // Kod obsługujący dodawanie produktów ogólnego typu model.Product
         Optional<Product> optionalProduct = productManager.findById(product.getId());
         if (optionalProduct.isPresent()) {
             Product foundProduct = optionalProduct.get();
