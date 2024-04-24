@@ -19,7 +19,6 @@ public class Test {
         OrderProcessor orderProcessor = new OrderProcessor();
         Scanner scanner = new Scanner(System.in);
         PcComponents pcComponents = new PcComponents();
-        
         CommandLineInterface cli = new CommandLineInterface(productManager, cart, orderProcessor, scanner, pcComponents);
         Smartphone smartphone1 = new Smartphone(1, "telefon Samsung Galaxy S22 8/128", new BigDecimal("2399.99"), 7, Smartphone.Color.BLACK, 3700);
         Smartphone smartphone2 = new Smartphone(2, "telefon Apple Iphone 15 128GB", new BigDecimal("3699.99"), 3, Smartphone.Color.SILVER, 4000);

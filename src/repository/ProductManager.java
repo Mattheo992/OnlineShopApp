@@ -12,25 +12,13 @@ import java.util.Optional;
 public class ProductManager {
 
     /** Lista przechowująca produkty w magazynie. */
-    private List<Product> products;
+    private final List<Product> products;
 
     /** Konstruktor tworzący nowy obiekt repository.ProductManager. */
     public ProductManager() {
         this.products = new ArrayList<>();
     }
 
-    /**
-     * Metoda dodająca produkt do magazynu.
-     *
-     * @param product Produkt do dodania.
-     */
-    public void addProduct(Product product) throws ProductNotAvailableException {
-        if (product.getQuantityAvailable() <= 0) {
-            throw new ProductNotAvailableException("Produkt jest niedostępny w magazynie.");
-        }
-        products.add(product);
-        System.out.println("Produkt został dodany.");
-    }
     /**
      * Metoda dodająca produkt do magazynu bez komentarza o dodanym produkcie.
      *
@@ -59,7 +47,6 @@ public class ProductManager {
         System.out.println("Naciśnij 0, aby wrócić do menu głównego.");
         int input = scanner.nextInt();
         if (input == 0) {
-            return;
         } else {
             System.out.println("Nieprawidłowy wybór.");
             displayProducts();
