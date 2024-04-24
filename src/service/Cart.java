@@ -2,28 +2,20 @@ package service;
 
 import exception.ProductNotAvailableException;
 import model.Product;
+import model.Smartphone;
 import repository.ProductManager;
-
+import model.Computer;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Scanner;
 
 /**
  * Klasa reprezentująca koszyk zakupowy w sklepie.
  */
-
 public class Cart {
-    private List<Product> products; //Lista produktów w koszyku
-    private ProductManager productManager; //Manager produktów
-
-    /**
-     * Konstruktor domyślny tworzący pusty koszyk.
-     */
-    public Cart() {
-        this.products = new ArrayList<>();
-    }
+    private List<Product> products; // Lista produktów w koszyku
+    private ProductManager productManager; // Manager produktów
 
     /**
      * Konstruktor inicjalizujący koszyk i ustawiający manager produktów.
@@ -87,7 +79,6 @@ public class Cart {
      * Wyświetla zawartość koszyka.
      */
     public void viewCart() {
-        Scanner scanner = new Scanner(System.in);
         if (products.isEmpty()) {
             System.out.println("Koszyk jest pusty");
         } else {
@@ -114,7 +105,15 @@ public class Cart {
      */
     public BigDecimal calculateTotalAmount() {
         return products.stream()
-                .map(Product::getPrice)
+                .map(product -> {
+                    if (product instanceof Computer) {
+                        return ((Computer) product).getPrice();
+                    } else if (product instanceof Smartphone) {
+                        return ((Smartphone) product).getPrice();
+                    } else {
+                        return product.getPrice();
+                    }
+                })
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 

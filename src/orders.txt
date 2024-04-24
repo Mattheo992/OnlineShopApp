@@ -1,2 +1,8 @@
-
+ID zamówienia: 563
+Zamówione produkty: [Komputer{id=999, nazwa produktu='Spersonalizowany komputer', procesor='Intel Core i5', pamięć ram=8 GB, pojemność dysku SSD=256 GB, zasilacz=650 W}]
+Wartość zamówienia: 2424.98
+Imię klienta: sjdh
+Nazwisko: asjdh
+Adres klienta: asjdh
+Zamówienie złożono: 2024-04-24T20:13:41.379737800+02:00[Europe/Warsaw]
 

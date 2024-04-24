@@ -15,7 +15,9 @@ import java.util.concurrent.Executors;
  * Klasa odpowiedzialna za przetwarzanie zamówień.
  */
 public class OrderProcessor {
-    /** ExecutorService do zarządzania wątkami przetwarzania zamówień. */
+    /**
+     * ExecutorService do zarządzania wątkami przetwarzania zamówień.
+     */
     private final ExecutorService EXECUTOR;
 
     /**
@@ -38,7 +40,9 @@ public class OrderProcessor {
      * Wewnętrzna klasa reprezentująca zadanie przetwarzania zamówienia.
      */
     private static class OrderProcessingTask implements Runnable {
-        /** Zamówienie do przetworzenia. */
+        /**
+         * Zamówienie do przetworzenia.
+         */
         private final Order order;
 
         /**
@@ -64,14 +68,10 @@ public class OrderProcessor {
             System.out.println("Adres dostawy: " + customer.getAddress());
             System.out.println("Kwota do zapłaty za zamówienie " + order.getOrderId() + " wynosi "
                     + total + " zł.");
-            generateInvoice(order, total.doubleValue());
-
-            BigDecimal discountAmount = BigDecimal.valueOf(calculateLoyaltyPoints(total.doubleValue(), customer.getLoyaltyPoints()));
-
+            generateInvoice(order, total);
+            BigDecimal discountAmount = calculateLoyaltyPoints(total, customer.getLoyaltyPoints());
             total = total.subtract(discountAmount);
-
             System.out.println("Kwota po rabacie wynosi: " + total);
-
             OrderSavedToTxt.saveOrdersToTxtFile(Collections.singletonList(order));
         }
 
@@ -90,14 +90,14 @@ public class OrderProcessor {
         /**
          * Metoda obliczająca zniżkę na podstawie punktów lojalnościowych klienta.
          *
-         * @param totalAmount    Łączna kwota zamówienia.
-         * @param loyaltyPoints  Punkty lojalnościowe klienta.
+         * @param totalAmount   Łączna kwota zamówienia.
+         * @param loyaltyPoints Punkty lojalnościowe klienta.
          * @return Wartość zniżki.
          */
-        private double calculateLoyaltyPoints(double totalAmount, int loyaltyPoints) {
-            double discountRate = 0.1;
-            double discount = loyaltyPoints * discountRate;
-            if (discount > totalAmount) {
+        private BigDecimal calculateLoyaltyPoints(BigDecimal totalAmount, int loyaltyPoints) {
+            BigDecimal discountRate = BigDecimal.valueOf(0.1);
+            BigDecimal discount = discountRate.multiply(BigDecimal.valueOf(loyaltyPoints));
+            if (discount.compareTo(totalAmount) > 0) {
                 discount = totalAmount;
             }
             return discount;
@@ -109,7 +109,7 @@ public class OrderProcessor {
          * @param order Zamówienie.
          * @param total Łączna kwota zamówienia.
          */
-        private void generateInvoice(Order order, double total) {
+        private void generateInvoice(Order order, BigDecimal total) {
             System.out.println("Generowanie faktury...");
             System.out.println("Faktura dla zamówienia o numerze: " + order.getOrderId());
             System.out.println("Data zamówienia: " + ZonedDateTime.now());

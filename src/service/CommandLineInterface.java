@@ -99,6 +99,7 @@ public class CommandLineInterface {
         Optional<Product> optionalProduct = productManager.findById(productId);
         if (optionalProduct.isPresent()) {
             Product productToAdd = optionalProduct.get();
+            productToAdd.setPrice(productToAdd.getPrice());
             try {
                 cart.addProduct(productToAdd, 1);
                 System.out.println("Produkt został dodany do koszyka");
@@ -108,7 +109,7 @@ public class CommandLineInterface {
         } else {
             System.out.println("Produkt o podanym ID nie istnieje");
         }
-    }
+        }
 
     /**
      * Usuwa produkt z koszyka.
@@ -216,7 +217,6 @@ public class CommandLineInterface {
             Computer computer = new Computer(999, "Spersonalizowany komputer", new BigDecimal("0.00"),
                     1, null, 8, 0, 0);
             BigDecimal totalCost = BigDecimal.valueOf(1500.00);
-            // Wybór procesora
             System.out.println("Wybierz procesor: ");
             displayComponentsWithPrices(pcComponents.getProcessors());
             int processorChoice = scanner.nextInt();
@@ -224,21 +224,18 @@ public class CommandLineInterface {
             System.out.println("Wybrano procesor: " + chosenProcessor.getProductName());
             computer.setProcessor(chosenProcessor.getProductName());
             totalCost = totalCost.add(chosenProcessor.getPrice()); // Aktualizacja ceny
-            // Wybór dysku SSD
             System.out.println("Wybierz dysk SSD: ");
             displayComponentsWithPrices(pcComponents.getSsds());
             int ssdChoice = scanner.nextInt();
             PcComponents.Component chosenSsd = pcComponents.getSsds().get(ssdChoice - 1);
             System.out.println("Wybrano dysk SSD: " + chosenSsd.getProductName());
             totalCost = totalCost.add(chosenSsd.getPrice()); // Aktualizacja ceny
-            // Wybór zasilacza
             System.out.println("Wybierz zasilacz: ");
             displayComponentsWithPrices(pcComponents.getChargers());
             int chargerChoice = scanner.nextInt();
             PcComponents.Component chosenCharger = pcComponents.getChargers().get(chargerChoice - 1);
             System.out.println("Wybrano zasilacz: " + chosenCharger.getProductName());
-            totalCost = totalCost.add(chosenCharger.getPrice()); // Aktualizacja ceny
-            // Przypisanie wartości dysku SSD i zasilacza do komputera
+            totalCost = totalCost.add(chosenCharger.getPrice());
             int ssdCapacity = extractCapacityFromString(chosenSsd.getProductName());
             computer.setSsdDriveCapacity(ssdCapacity);
             int chargerPower = extractPowerFromString(chosenCharger.getProductName());
@@ -247,8 +244,8 @@ public class CommandLineInterface {
             System.out.println("Czy chcesz dodać ten komputer do koszyka? (T/N)");
             String addToCartChoice = scanner.next();
             if (addToCartChoice.equalsIgnoreCase("T")) {
-                // Dodanie komponentów komputera do koszyka
                 productManager.addProductWithoutComment(computer);
+                computer.setPrice(totalCost);
                 cart.addProduct(computer, 1);
                 System.out.println("Całkowita kwota za komputer: " + totalCost + " zł");
             } else {
@@ -354,6 +351,7 @@ public class CommandLineInterface {
         String addToCartChoice = scanner.next();
         if (addToCartChoice.equalsIgnoreCase("T")) {
             productManager.addProductWithoutComment(smartphone);
+            smartphone.setPrice(totalCost);
             cart.addProduct(smartphone, 1);
             System.out.println("Całkowita kwota za telefon: " + totalCost + " zł");
         } else {

@@ -62,7 +62,7 @@ public class PcComponents {
      */
     public static class Component extends Product {
         public Component(int id, String productName, BigDecimal productPrice) {
-            super(id, productName, productPrice, 0); // Domyślna ilość dostępna ustawiona na 0
+            super(id, productName, productPrice, 0);
         }
     }
 }
