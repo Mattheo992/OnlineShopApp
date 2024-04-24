@@ -12,7 +12,7 @@ import java.util.Optional;
 public class ProductManager {
 
     /** Lista przechowująca produkty w magazynie. */
-    private final List<Product> products;
+    private List<Product> products;
 
     /** Konstruktor tworzący nowy obiekt repository.ProductManager. */
     public ProductManager() {
@@ -47,6 +47,7 @@ public class ProductManager {
         System.out.println("Naciśnij 0, aby wrócić do menu głównego.");
         int input = scanner.nextInt();
         if (input == 0) {
+            return;
         } else {
             System.out.println("Nieprawidłowy wybór.");
             displayProducts();
